@@ -1,0 +1,12 @@
+
+#screen {
+    background-color: gray;
+    height: 40px;
+    text-align:center;
+    direction:ltr;
+}
+
+.numbers_container {
+    text-align: center;
+    padding: 5px;
+}

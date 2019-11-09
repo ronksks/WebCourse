@@ -1,79 +1,48 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="he" dir="rtl">
 <head>
     <meta charset="utf-8" />
-    <style>
-
-        #main_container {
-            border: 1px solid black;
-            background-color: lightblue;
-            font-size: 18px;
-            text-align: center;
-            width: 10%;
-            height: 250px;
-            align-content: center;
-            margin-left: 45%;
-            margin-right: 45%;
-        }
-
-        #screen {
-            width: 90%;
-            margin: 5%;
-            background-color: gray;
-            height: 20px;
-        }
-
-        #numbers_container {
-            height: 120px;
-            width: 90%;
-            padding: 5%;
-        }
-
-        #equals_container {
-            height: 80px;
-            width: 70%;
-            float: right;
-        }
-
-
-        .button {
-            align-content: center;
-            border: 1px solid black;
-            width: 30px;
-            height: 30px;
-            float: left;
-            clear: none;
-            background-color: gray;
-            border-radius: 5px;
-        }
-    </style>
+    <link href="include/StyleSheet.css" rel="stylesheet" />
+    <link href="include/bootstrap.min.css" rel="stylesheet" />
+    <script src="include/jquery.js"></script>
+    <script src="include/lib.js"></script>
     <title>Calculator</title>
 </head>
 <body>
-    <div id="main_container">
+    <div class="jumbotron">
         <div id="screen">
         </div>
-        <div id="numbers_container">
-            <div class="button">1</div>
-            <div class="button">2</div>
-            <div class="button">3</div>
-            <div class="button">4</div>
-            <div class="button">5</div>
-            <div class="button">6</div>
-            <div class="button">7</div>
-            <div class="button">8</div>
-            <div class="button">9</div>
-            <div class="button">0</div>
-            <div class="button">+</div>
-            <div class="button">-</div>
-            <div class="button">*</div>
-            <div class="button">/</div>
-            <div class="button">%</div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-primary">1</button>
+            <button type="button" class="btn btn-outline-primary">2</button>
+            <button type="button" class="btn btn-outline-primary">3</button>
         </div>
-        <div id="equals_container">
-            <div class="button" style="width:60px!important;float:right;">=</div>
-            <div class="button" style="width:60px!important;float:right;">מחק</div>
-            <div class="button" style="width:60px!important;float:right;">מחק הכל</div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-primary">4</button>
+            <button type="button" class="btn btn-outline-primary">5</button>
+            <button type="button" class="btn btn-outline-primary">6</button>
+        </div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-primary">7</button>
+            <button type="button" class="btn btn-outline-primary">8</button>
+            <button type="button" class="btn btn-outline-primary">9</button>
+        </div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-secondary">+</button>
+            <button type="button" class="btn btn-outline-primary">0</button>
+            <button type="button" class="btn btn-outline-secondary">-</button>
+        </div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-secondary">*</button>
+            <button type="button" class="btn btn-outline-secondary">/</button>
+            <button type="button" class="btn btn-outline-secondary">%</button>
+        </div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-success">=</button>
+            <button type="button" class="btn btn-outline-warning">מחק</button>
+        </div>
+        <div class="numbers_container">
+            <button type="button" class="btn btn-outline-danger">מחק הכל</button>
         </div>
     </div>
 
