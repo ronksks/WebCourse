@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <title>Introduction to Angular - compilers</title>
+    <link href="inc/style.css" rel="stylesheet" />
+    <script src="inc/angular.min.js"></script>
+    <script>
+        angular.module('drag', []).
+        directive('draggable', function ($document) {
+            return function (scope, element, attr) {
+                var startX = 0, startY = 0, x = 0, y = 0;
+                element.css({
+                    position: 'relative',
+                    border: '1px solid red',
+                    backgroundColor: 'lightyellow',
+                    padding:'10px',
+                    cursor: 'pointer',
+                    display: 'block',
+                    width: '65px'
+                });
+                element.on('mousedown', function (event) {
+                    // Prevent default dragging of selected content
+                    event.preventDefault();
+                    startX = event.screenX - x;
+                    startY = event.screenY - y;
+                    $document.on('mousemove', mousemove);
+                    $document.on('mouseup', mouseup);
+                });
+                function mousemove(event) {
+                    y = event.screenY - startY;
+                    x = event.screenX - startX;
+                    element.css({
+                        top: y + 'px',
+                        left: x + 'px'
+                    });
+                }
+                function mouseup() {
+                    $document.off('mousemove', mousemove);
+                    $document.off('mouseup', mouseup);
+                }
+            };
+});
+    </script>
+</head>
+<body data-ng-app="drag">
+    <div style="width:300px;margin:20px auto">
+        <span draggable>Drag ME</span>
+    </div>
+</body>
+</html>

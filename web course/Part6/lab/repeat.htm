@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Sort and Filter</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <script src="inc/jquery-2.0.0.min.js"></script>
+    <link href="inc/style.css" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        tbody input,tbody span{
+            width:130px;
+        }
+        tbody span {
+            display:inline-block;
+        }
+        tbody td{
+            height:34px;
+        }
+    </style>
+    <script src="inc/angular.min.js"></script>
+    <script src="inc/app.js"></script>
+
+</head>
+<body>
+    <div class="frame" ng-app="sortApp" ng-controller="mainController" style="width:480px;margin-top:0px">
+        <div class="alert alert-info">
+            <p>Sort Type: {{ sortType }}</p>
+            <p>Sort Reverse: {{ sortReverse }}</p>
+            <p>Search Query: {{ searchFish }}</p>
+        </div>
+        <form name="myForm">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchFish">
+                </div>
+            </div>
+        </form>
+        <table class="myTable">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                            Sushi Roll
+                            <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'fish'; sortReverse = !sortReverse">
+                            Fish Type
+                            <span ng-show="sortType == 'fish' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'fish' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'tastiness'; sortReverse = !sortReverse">
+                            Taste Level
+                            <span ng-show="sortType == 'tastiness' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'tastiness' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="roll in sushi | orderBy:sortType:sortReverse | filter: searchFish">
+                    <td>
+                        <span onclick="EditMode(this,1)">{{roll.name}}</span>
+                        <input ng-model="roll.name" type="text"
+                               onchange="$(this).parent().css('color','red')"
+                               style="display:none" onblur="EditMode(this, 0)" />
+                    </td>
+                    <td>
+                        <span onclick="EditMode(this,1)">{{roll.fish}}</span>
+                        <input ng-model="roll.fish" type="text"
+                               onchange="$(this).parent().css('color','red')"
+                               style="display:none" onblur="EditMode(this, 0)" />
+                    </td>
+                    <td>
+                        <span onclick="EditMode(this,1)">{{roll.tastiness}}</span>
+                        <input ng-model="roll.tastiness" type="number"
+                               onchange="$(this).parent().css('color','red')"
+                               style="display:none" onblur="EditMode(this, 0)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align:center;padding-top:10px"><button ng-click="save()">Save</button>
+            <button ng-click="reset()">Reset</button></div>
+        </div>
+    <script>
+        function EditMode(el, isEdit) {
+            $("tbody td input").hide();
+            $("tbody td span").show();
+            if (isEdit) {
+                $(el).hide();
+                $(el).next().show();
+            } else {
+                $(el).hide();
+                $(el).prev().show();
+            }
+        }
+    </script>
+</body>
+</html>

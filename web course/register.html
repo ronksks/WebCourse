@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" />
     <title></title>
     <style>
 
@@ -35,8 +36,23 @@
             background-repeat: no-repeat;
         }
     </style>
-    <script src="inc/jquery-1.10.2.js"></script>
-    <script>function Show() {
+    <script src="include/jquery.js"></script>
+    <script>
+        //localStorage.Users = undefined
+        //delete(localStorage.Users)
+        $(document).ready(function () {
+            var res = ""
+            if (typeof localStorage.Users != 'undefined') {
+                console.log(localStorage.Users)
+                var list = JSON.parse(localStorage.Users)
+                console.log(list)
+                list.each(function (val, i) {
+                    res = $("#result").text() + "\n\n" + val;
+                    $("#result").text(res);
+                })
+            }
+        });
+        function Show() {
             var s = "Name:\t" + $("#name").val() + "\nMail:\t" +
                 $("#mail").val() + "\nUrl:\t" + $("#url").val() +
                 "\nAge:\t" + $("#age").val() + "\nUsername:\t" +
@@ -55,6 +71,14 @@
             }
             var res = $("#result").text() + "\n\n" + JSON.stringify(inpObject);
             $("#result").text(res);
+            if (typeof localStorage.Users != "undefined") {
+                var l = localStorage.Users.length
+                localStorage.Users = localStorage.Users.substr(0,l-2) + ", " + JSON.stringify(inpObject) + "]"
+            } else {
+                localStorage.Users = "[" + JSON.stringify(inpObject) + "]"
+            }
+            console.log(localStorage.Users)
+
             var res = $("#localstorage").text() + "\n\n" + JSON.stringify(inpObject);
             $("#localstorage").text(res)
             return false;
@@ -97,7 +121,7 @@
                 <!--<label>Mail:</label><input type="email" id="mail" placeholder="Enter your mail" required>-->
                 <label>Mail:</label><input type="text" id="mail" placeholder="Enter your mail"
                                            required
-                                           pattern=".+@.+\..+"
+                                           pattern=".+@.+[.].+"
                                            oninvalid="setCustomValidity('Please, enter a valid email');showError(this)">
             </div>
             <div>
@@ -116,7 +140,7 @@
                 <label>Username:</label><input type="text" id="username" placeholder="Enter your Username" required oninvalid="setCustomValidity('Please, enter a Username');showError(this)">
             </div>
             <div>
-                <label>Password:</label><input type="password" id="pass" placeholder="Enter your password" required oninvalid="setCustomValidity('Please, enter a Password');showError(this)">
+                <label>Password:</label><input type="password" id="pass" placeholder="Enter your password" required">
             </div>
             <label>&nbsp;</label>
             <input type="submit" value="Send">

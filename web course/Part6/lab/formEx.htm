@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <link href="inc/bootstrap.min.css" rel="stylesheet" />
+    <link href="inc/style.css" rel="stylesheet" />
+    <script src="inc/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('formCtrl', function ($scope) {
+
+            $scope.data = {
+                availableOptions: [
+                    { id: '1', name: 'Option A' },
+                    { id: '2', name: 'Option B' }
+                ],
+                selectedOption: { id: '2', name: 'Option B' },
+                rulePeriod: ''
+            };
+
+            $scope.submit = function () {
+                alert("OK");
+            }
+        });
+    </script>
+</head>
+<body data-ng-app="myApp" data-ng-controller="formCtrl">
+    <div style="width:600px" class="frame">
+        <form name="myForm" data-ng-submit="submit()" novalidate>
+            <div class="form-group">
+                <label for="inputDetailsTransactionType">Transaction Type:</label>
+                <select name="inputDetailsTransactionType" id="inputDetailsTransactionType" class="form-control"
+                        ng-options="option.name for option in data.availableOptions track by option.id"
+                        ng-model="data.selectedOption"></select>
+            </div>
+
+            <div class="form-group" data-ng-show="data.selectedOption.id!='2'">
+                <label class="control-label required" for="inputDetailsRulePeriod">Rule Period (days):</label>
+                <input type="text" class="form-control" id="inputDetailsRulePeriod" name="inputDetailsRulePeriod" data-ng-model="data.rulePeriod" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" data-ng-disabled="(data.selectedOption.id=='1' || data.rulePeriod.trim()!='')" />
+            </div>
+            <!--<p>
+                First Name:<br />
+                <input type="text" data-ng-model="user.firstName" name="firstName" required>
+                <span style="color:red" data-ng-show="myForm.firstName.$dirty && myForm.firstName.$invalid">
+                    <span ng-show="myForm.firstName.$error.required">First name is required.</span>
+                </span>
+            </p>
+            <p>
+                Last Name:<br>
+                <input type="text" name="ln" data-ng-model="user.lastName" data-ng-style="{color: myForm.ln.$pristine ? 'black' : 'red'}">
+            </p>
+            <p>
+                Email:<br>
+                <input type="email" name="email" data-ng-model="user.mail" required>
+                <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+                    <span ng-show="myForm.email.$error.required">Email is required.</span>
+                    <span ng-show="myForm.email.$error.email">Invalid email address.</span>
+                </span>
+            </p>
+            <br><br>
+            <button data-ng-click="reset()">Reset</button><button data-ng-click="fill($event)">Fill other</button>
+            <input type="submit"
+                   ng-disabled="myForm.firstName.$dirty && myForm.firstName.$invalid
+                                    || myForm.email.$dirty && myForm.email.$invalid" />-->
+            <div>A: {{data.rulePeriod}}</div>
+        </form>
+        <!--<p>form = {{user}}</p>
+        <p>lecturer = {{lecturer}}</p>-->
+
+    </div>
+</body>
+</html>
