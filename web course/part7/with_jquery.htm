@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Introduction to Angular - controllers</title>
+    <link href="inc/style.css" rel="stylesheet" />
+    <script src="inc/jquery-2.0.0.min.js"></script>
+    <script src="inc/angular.min.js"></script>
+    <style>
+        input {
+            width: 100px;
+        }
+    </style>
+    <script>
+        angular.module('myApp', []).controller('namesCtrl', function ($scope) {
+            $scope.setValue = function () {
+                $scope.names[0].name = "Peter";
+                $(event.target).parent().next().text("from controller");
+            }
+        });
+    </script>
+    <script>
+        var scope;
+        $(document).ready(function () {
+            // for access
+            scope = angular.element($("body")).scope();
+            // set scope variable outside the controller
+            scope.names = [
+                { name: 'Jani', country: 'Norway' },
+                { name: 'Hege', country: 'Sweden' },
+                { name: 'Kai', country: 'Denmark' }
+            ];
+            // to apply the scope data update
+            scope.$apply();
+        })
+
+        function ChangeValue() {
+            scope.names[0].name = "Alex";
+            scope.$apply();
+            // 
+            $(event.target).parent().next().text("from jquery");
+        }
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="namesCtrl">
+    <div class="frame">
+        <ul>
+            <li ng-repeat="x in names">
+                {{ x.name + ', ' + x.country }}
+            </li>
+        </ul>
+        <div>
+            First name: <br />
+            <input type="text" data-ng-model="names[0].name">
+            <input type="text" data-ng-model="names[0].country">
+        </div>
+        <div style="margin-top:10px;">
+            <button onclick="ChangeValue()">Change 1</button>
+            <button ng-click="setValue()">Change 2</button>
+        </div>
+        <div style="height:22px;color:red;margin-top:10px;"></div>
+    </div>
+</body>
+</html>

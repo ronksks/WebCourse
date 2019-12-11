@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,11 +12,11 @@
                 var temp_arr = JSON.parse(localStorage.users);
                 temp_arr.forEach(function (val, i, arr) {
                     markup = "<tr> \
-                        <th style='width:30px' id='index" + val.index + "'>" + val.index + "</th>\
-                        <th style='width:120px'><input id='name" + val.index + "' value='" + val.name + "' /></th>\
-                        <th style='width:60px'><input type='integer' id='age" + val.index + "' value='" + val.age + "' /></th>\
-                        <th><input id='address" + val.index + "' value='" + val.address + "'/>\
-                        <button class='btn-sm btn-danger' style='float:right;' onclick='del_raw("+val.index+")'>x</button></th>\
+                        <th style='width:30px' id='index" + i + "'>" + i + "</th>\
+                        <th style='width:120px'><input id='name" + i + "' value='" + val.name + "' /></th>\
+                        <th style='width:60px'><input type='integer' id='age" + i + "' value='" + val.age + "' /></th>\
+                        <th><input id='address" + i + "' value='" + val.address + "'/>\
+                        <button class='btn-sm btn-danger' style='float:right;' onclick='del_raw("+i+")'>x</button></th>\
                     </tr>";
                     index++;
                     $("#tbStudents").append(markup);
@@ -39,16 +39,15 @@
         function Save() {
             var students = [];
             $("#tbStudents > tbody > tr").each(function (ii, tr) {
-                i = tr.find("first-child").val();
-                name = $("#name" + i).val();
-                age = $("#age" + i).val();
-                address = $("#address" + i).val();
+                name = $("#name" + ii).val();
+                age = $("#age" + ii).val();
+                address = $("#address" + ii).val();
                 if (!name || !age || !address) {
-                    console.log("index:" + i + " is empty. skipping.");
+                    console.log("index:" + ii + " is empty. skipping.");
                     return;
                 }
-                console.log("saving index:" + i + " - name:" + name + " - age:" + age + " - address:" + address);
-                newUser = { 'index': i, 'name': name, 'age': age, 'address': address };
+                console.log("saving index:" + ii + " - name:" + name + " - age:" + age + " - address:" + address);
+                newUser = { 'index': ii, 'name': name, 'age': age, 'address': address };
                 console.log(newUser);
                 //if its not empty we a to it otherwise we insert first new user to list
                 if (user_alreay_exists(students, newUser)) {
