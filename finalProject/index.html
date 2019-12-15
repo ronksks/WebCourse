@@ -1,14 +1,75 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title></title>
     <script src="include/jquery-2.0.0.min.js"></script>
-    <script src="include/classes.js"></script>
-    <script src="include/angular.min.js"></script>
     <link href="include/style.css" rel="stylesheet" />
-    </head>
+    <link href="include/bootstrap.min.css" rel="stylesheet" />
+    <script src="include/angular.min.js"></script>
+    <script src="include/classes.js"></script>
+    <script src="include/app.js"></script>
+</head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">
+            <img src="https://img.icons8.com/ultraviolet/30/000000/kitchenwares.png">
+            KitchenApp
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Recipes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Favorites</a>
+                </li>
+                <!--<li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+                </li>-->
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Advanced Search</a>
+                </li>
+                <li class="nav-item">
+                    <!-- TODO: add new items in dropdown like settings and more also change text to icon of account-->
+                    <a class="nav-link" href="#">Account Icon</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="main_container">
+
+        <div class="jumbotron product_container" ng-app="kitchenApp" ng-controller="mainController">
+            <h1 class="display-3">Recipes</h1>
+
+            <!--<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>-->
+                    <hr class="my-4">
+                    <!-- TODO: add onclick functionality to show recipe on same page-->
+                    <div class="card border-primary mb-3" ng-repeat="recipe in recipes" style="max-width: 20rem; float: left; margin: 8px;">
+                        <div class="card-header">{{recipe.title}}</div>
+                        <div class="card-body">
+                            <h4 class="card-title">Time: {{recipe.timeToPrepare}} Minutes</h4>
+                            <p class="card-text"><img src="{{recipe.pathToThumbnail}}" style="max-width: 17rem;" /></p>
+                            rating system here
+                        </div>
+                    </div>
+</div>
+
+    </div>
+
+    <a href="https://icons8.com/icon/45894/kitchenwares">Kitchenwares icon by Icons8</a>
 </body>
 </html>
