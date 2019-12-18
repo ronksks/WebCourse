@@ -4,7 +4,7 @@
 
 .sidenav {
     height: 100%;
-    width: 60px;
+    width: 80px;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -15,19 +15,29 @@
 }
 
 .page_container {
-    width:97%;
+    width:100%;
 }
 .recipes_container {
     overflow: auto;
 }
-
+.main_container {
+    overflow: auto;
+}
+.new_recipe_container {
+    width: 70%;
+    overflow: auto;
+    background-color: #e6e6e6;
+    position: fixed;
+    top: 20%;
+    left: 13%;
+}
 .recipe {
     max-width: 20rem;
     float: left;
     margin: 4px;
 }
 .sidenav a {
-    padding: 6px 6px 6px 32px;
+    padding: 6px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
