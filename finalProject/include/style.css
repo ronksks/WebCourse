@@ -1,28 +1,39 @@
 ﻿body{
         font-family:Arial,Verdana,Tahoma;
     }
-.frame
-{
-    width:300px;
-    margin:20px auto;
-    border:1px solid silver;
-    padding:20px;
+
+.sidenav {
+    height: 100%;
+    width: 60px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #007bff9e;
+    overflow-x: hidden;
+    padding-top: 60px;
 }
-.myTable{
-    width:100%;
-    border-collapse:collapse;
+
+.page_container {
+    width:97%;
 }
-.myTable td{
-    border:1px solid silver;
-    padding:4px;
-    width:33%;
+.recipes_container {
+    overflow: auto;
 }
-a:link, a:visited {
-	color: navy;
-	font-weight:bold;
+
+.recipe {
+    max-width: 20rem;
+    float: left;
+    margin: 4px;
+}
+.sidenav a {
+    padding: 6px 6px 6px 32px;
     text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
 }
-a:hover {
-	color: red;
-	text-decoration: none;
+
+.sidenav a:hover {
+    color: #f1f1f1;
 }
