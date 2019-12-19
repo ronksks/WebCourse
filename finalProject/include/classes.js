@@ -1,11 +1,13 @@
 class Recipe {
-    constructor(id, title, time_to_prepare, path_to_thumbnail, rate, ingredients) {
+    constructor(id, title, time_to_prepare, path_to_thumbnail, rate, ingredients, description, user) {
         this.id = id;
         this.title = title;
         this.timeToPrepare = time_to_prepare;
         this.pathToThumbnail = path_to_thumbnail;
         this.rate = rate;
         this.ingredients = ingredients
+        this.description = description;
+        this.user = user;
     }
 
     isVegetarian() {
@@ -33,7 +35,7 @@ class Ingredient {
         this.title = title;
         this.defaultUnit = defaultUnit;
         this.pathToThumbnail = pathToThumbnail;
-        this.source = source;       //mention if its vegan, meat, dairy, other
+        this.source = source;       //mention if its vegan, meat, dairy, other (bitwise)
     }
 
     isVegetarian() {
