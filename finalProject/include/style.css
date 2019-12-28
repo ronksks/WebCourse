@@ -9,7 +9,6 @@
     z-index: 1;
     top: 0;
     right: 0;
-    background-color: #007bff9e;
     overflow-x: hidden;
     padding-top: 10%;
 }
@@ -32,6 +31,12 @@
     left: 13%;
     max-height: 60%;
     border: 2px dashed black;
+}
+.login_container {
+    width:300px;
+    position:fixed;
+    right:0;
+    top:0;
 }
 .recipe {
     max-width: 20rem;
@@ -77,4 +82,14 @@ label {
 
 .form_row {
     width:100%;
+}
+
+/*!
+ * AR - Ron.Y make out website responsive and mobile supported.
+ */
+@media only screen and (max-width: 600px) {
+    .new_recipe_container {
+        width: 100% !important;
+        left:0;
+    }
 }

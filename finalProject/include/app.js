@@ -74,7 +74,8 @@ function del_raw(i) {
 }
 
 function close_new_recipe() {
-    $(".new_recipe_container").attr("hidden",true);
+    $(".new_recipe_container").attr("hidden", true);
+    console.log("close clicked");
 }
 
 function show_new_recipe_form() {
