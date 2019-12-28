@@ -19,13 +19,14 @@ FEMALE = 1;
 // new recipe form definitions.
 index = 0;
 angular.module('kitchenApp', []).controller('mainController', function ($scope) {
+    //creating fake objects because no database is set up yet.
     var rec_path = "https://www.diabetes.org/sites/default/files/styles/crop_large/public/2019-06/Healthy%20Food%20Made%20Easy%20-min.jpg";
     var ing_path = "https://image.shutterstock.com/image-photo/red-apple-on-white-background-600w-158989157.jpg";
     var ing_1 = new Ingredient(0, "Banana", "Pc", ing_path, 0);
     var ing_2 = new Ingredient(1, "Apple", "Pc", ing_path, 0);
     var admin = new User(0, "Daniel", "Tibi", MALE, new Date(), [0, 1, 2]);
     var ings = [ing_1, ing_2];
-        $scope.recipes = [];
+    $scope.recipes = [];
     for (var i = 0; i < 25; i++) {
         $scope.recipes[i] = new Recipe(i, "Mock Recipe Title " + i, 30 + i, rec_path, 3, ings, "take 2 eggs scrable and eat",admin);
     }
@@ -51,26 +52,25 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
 
 function new_raw() {
     console.log("new line clicked!");
-    markup = "<tr> \
-                <td><input id='name" + index + "' \></td>\
-                <td><input type='checkbox' class='form-check-input position-static'></td> \
-                <td><input type='checkbox' class='form-check-input position-static'></td> \
-                <td><input type='checkbox' class='form-check-input position-static'></td> \
-                <td><input type='checkbox' class='form-check-input position-static'></td> \
-                <td><input type='integer' id='quantity" + index + "' \></td> \
-                <td><select class='form-control'> \
-                    <option>Pieces</option> \
-                    <option>Grams</option> \
-                    <option>Ounzes</option> \
-                    <option>cups</option> \
-                </select ></td>\
-                <td><a href='#' onclick='del_raw("+ index + ")'><img src='https://img.icons8.com/flat_round/24/000000/minus.png' style='float: right'></a></td>\
-            </tr>";
+    markup = '<div id="ing' + index + '" class="ingrediant_container"><input placeholder="Ingrediant Name" />\
+            <a href="#" onclick="toggle_ingrediant_type(vegan)"><img src="https://img.icons8.com/material-rounded/24/000000/vegan-food.png"></a>\
+            <a href="#" onclick="toggle_ingrediant_type(chicken)"><img src="https://img.icons8.com/material-rounded/24/000000/thanksgiving--v2.png"></a>\
+            <a href="#" onclick="toggle_ingrediant_type(dairy)"><img src="https://img.icons8.com/material-rounded/24/000000/cheese.png"></a>\
+            <a href="#" onclick="toggle_ingrediant_type(fish)"><img src="https://img.icons8.com/material-rounded/24/000000/fish-food.png"></a>\
+            <input placeholder="quantity" />\
+            <select class="form-control" style="width:auto;display:inline-block;">\
+                <option>Pieces</option> \
+                <option>Grams</option> \
+                <option>Ounzes</option> \
+                <option>cups</option> \
+            </select>\
+            <a href="#" onclick="del_raw(' + index + ')"><img class="close_window" src="https://img.icons8.com/flat_round/24/000000/minus.png" style="float: right"></a></div>';
     index++;
-    $("#tbIngrediants").append(markup);
+    $("#dvIngrediants").append(markup);
 }
 function del_raw(i) {
-    $("#name" + i).parent().parent().remove();
+    //TODO: fix this to work with new container metodology
+    $("#ing" + i).remove();
 }
 
 function close_new_recipe() {
