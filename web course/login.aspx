@@ -7,28 +7,40 @@
 </head>
 <body>
     <form class="login100-form validate-form p-b-33 p-t-5" id="form1" runat="server">
-        <div class="limiter">
-            <div class="container-login100">
-                <div class="wrap-login100 p-t-30 p-b-50">
-                    <span class="login100-form-title p-b-41">Account Login
-                    </span>
-                    <div class="wrap-input100 validate-input" data-validate="Enter username">
-                        <input class="input100" name="username" placeholder="User name" type="text" />
-                        <span class="focus-input100" data-placeholder=""></span>
-                    </div>
-                    <div class="wrap-input100 validate-input" data-validate="Enter password">
-                        <input class="input100" name="pass" placeholder="Password" type="password" />
-                        <span class="focus-input100" data-placeholder=""></span>
-                    </div>
-                    <div class="container-login100-form-btn m-t-32">
-                        <button runat="server" id="loginButton" class="login100-form-btn">
-                            Login
-                        </button>
-                    </div>
-
+         <div class="jumbotron login_container" hidden>
+                <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                        <span class="login100-form-title p-b-33">
+                            Account Login
+                        </span>
+                        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                            <%--<asp:TextBox runat="server" cssClass="input100" ID="txtEmail" placeholder="Email" autocomplete="off" >--%>
+                        </div>
+                        <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+                            <%--<asp: runat="server" cssClass="input100" ID="txtPassword"/>--%>
+                        </div>
+                        <div class="container-login100-form-btn m-t-20">
+                            <button class="login100-form-btn">
+                                Sign in
+                            </button>
+                        </div>
+                        <div class="text-center p-t-45 p-b-4">
+                            <span class="txt1">
+                                Forgot
+                            </span>
+                            <a href="#" class="txt2 hov1">
+                                Username / Password?
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <span class="txt1">
+                                Create an account?
+                            </span>
+                            <a href="#" class="txt2 hov1">
+                                Sign up
+                            </a>
+                        </div>
                 </div>
             </div>
-        </div>
     </form>
 </body>
 </html>
