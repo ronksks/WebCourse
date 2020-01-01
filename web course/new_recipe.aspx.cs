@@ -56,6 +56,7 @@ namespace web_course
             //index++;
             //$("#dvIngrediants").append(markup);
             //    divIngrediants.InnerText = "hello world";
-            //    }
+            System.Diagnostics.Debug.WriteLine("SomeText");
+        }   
     }
 }
