@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="new_recipe.aspx.cs" Inherits="web_course.new_recipe" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="recipes.aspx.cs" Inherits="web_course.recipes" %>
 
 <!DOCTYPE html>
 
@@ -167,7 +167,7 @@
                 </div>
 
             <!--TODO: Ron.Y add a view recipe container-->
-        
+            
             </div>
         <div class="footer">
         <a href="https://icons8.com/icon/45894/kitchenwares">icons by Icons8</a>

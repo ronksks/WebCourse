@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace web_course
 {
-    public partial class new_recipe : System.Web.UI.Page
+    public partial class recipes : System.Web.UI.Page
     {
         //ibtnSearch_Click
         //txtSearch

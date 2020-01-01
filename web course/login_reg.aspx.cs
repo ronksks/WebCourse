@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace web_course
 {
-    public partial class login : System.Web.UI.Page
+    public partial class login_reg : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -67,34 +67,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="login.aspx" />
-    <Content Include="new_recipe.aspx" />
-    <Content Include="register.aspx" />
+    <Content Include="login_reg.aspx" />
+    <Content Include="recipes.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="login.aspx.cs">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="login_reg.aspx.cs">
+      <DependentUpon>login_reg.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="login.aspx.designer.cs">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="login_reg.aspx.designer.cs">
+      <DependentUpon>login_reg.aspx</DependentUpon>
     </Compile>
-    <Compile Include="new_recipe.aspx.cs">
-      <DependentUpon>new_recipe.aspx</DependentUpon>
+    <Compile Include="recipes.aspx.cs">
+      <DependentUpon>recipes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="new_recipe.aspx.designer.cs">
-      <DependentUpon>new_recipe.aspx</DependentUpon>
+    <Compile Include="recipes.aspx.designer.cs">
+      <DependentUpon>recipes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="register.aspx.cs">
-      <DependentUpon>register.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="register.aspx.designer.cs">
-      <DependentUpon>register.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

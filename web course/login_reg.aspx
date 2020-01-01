@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="web_course.login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login_reg.aspx.cs" Inherits="web_course.login" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
