@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace web_course
-{
-
-
-    public partial class recipes
-    {
-
+namespace web_course {
+    
+    
+    public partial class recipes {
+        
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -22,7 +20,7 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
+        
         /// <summary>
         /// txtSearch control.
         /// </summary>
@@ -31,7 +29,7 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSearch;
-
+        
         /// <summary>
         /// ibtnSearch control.
         /// </summary>
@@ -40,7 +38,7 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ibtnSearch;
-
+        
         /// <summary>
         /// txtRecipeName control.
         /// </summary>
@@ -49,7 +47,7 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRecipeName;
-
+        
         /// <summary>
         /// ddlCategory control.
         /// </summary>
@@ -58,25 +56,16 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
-
+        
         /// <summary>
-        /// txtQuantity control.
+        /// txtTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
-
-        /// <summary>
-        /// txtDirections0 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDirections0;
-
+        protected global::System.Web.UI.WebControls.TextBox txtTime;
+        
         /// <summary>
         /// divIngrediants control.
         /// </summary>
@@ -85,7 +74,7 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divIngrediants;
-
+        
         /// <summary>
         /// fileuploadRecipeThumb control.
         /// </summary>
@@ -94,7 +83,7 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileuploadRecipeThumb;
-
+        
         /// <summary>
         /// btnSubmit control.
         /// </summary>

@@ -17,7 +17,10 @@ MALE = 0;
 FEMALE = 1;
 
 // new recipe form definitions.
-index = 0;
+ingredient_index = 0;      // index of ingrediant count
+directions_index = 0;      // index of directions count
+
+
 angular.module('kitchenApp', []).controller('mainController', function ($scope) {
     //creating fake objects because no database is set up yet.
     var rec_path = "https://www.diabetes.org/sites/default/files/styles/crop_large/public/2019-06/Healthy%20Food%20Made%20Easy%20-min.jpg";
@@ -46,37 +49,116 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
     }
     console.log("done with assignment");
     console.log($scope.recipes);
+    arrange_ingrediants("init");
 
 });
 
-$(document).on('input', '.directions_inputs', function () {
-    alert('Input changed');
-});
-
-function new_raw() {
-    console.log("new line clicked!");
-    markup = '<div id="ing' + index + '" class="ingrediant_container"><input placeholder="Ingrediant Name" />\
-            <a href="#" onclick="toggle_ingrediant_type(vegan)"><img src="https://img.icons8.com/material-rounded/24/000000/vegan-food.png"></a>\
-            <a href="#" onclick="toggle_ingrediant_type(chicken)"><img src="https://img.icons8.com/material-rounded/24/000000/thanksgiving--v2.png"></a>\
-            <a href="#" onclick="toggle_ingrediant_type(dairy)"><img src="https://img.icons8.com/material-rounded/24/000000/cheese.png"></a>\
-            <a href="#" onclick="toggle_ingrediant_type(fish)"><img src="https://img.icons8.com/material-rounded/24/000000/fish-food.png"></a>\
-            <input placeholder="quantity" />\
-            <select class="form-control" style="width:auto;display:inline-block;">\
-                <option>Pieces</option> \
-                <option>Grams</option> \
-                <option>Ounzes</option> \
-                <option>cups</option> \
-            </select>\
-            <a href="#" onclick="del_raw(' + index + ')"><img class="close_window" src="https://img.icons8.com/flat_round/24/000000/minus.png" style="float: right"></a></div>';
-    index++;
-    $("#divIngrediants").append(markup);
+function arrange_directions(i) {
+    var latest_directions = $("#txtDirections" + directions_index)
+    //if latest direction is empty remove it
+    if (directions_index > 0) {
+        var latest_val = latest_directions.val().trim();
+        var before_latest_val = $("#txtDirections" + (directions_index - 1)).val().trim();
+        if (latest_val == "" && before_latest_val == "") {
+            $("#divDirections" + directions_index).remove();
+            directions_index--;
+            return;
+        }
+    }
+    //if latest direction is full. make sure there is a new direction available for filling
+    if (latest_directions.val().trim() != "") {
+        directions_index++;
+        var header = "";
+        var num = directions_index + 1;
+        if (num % 10 == 1) {
+            header = num + "st Step";
+        } else if (num % 10 == 2) {
+            header = num + "nd Step";
+        } else if (num % 10 == 3) {
+            header = num + "rd Step";
+        } else {
+            header = num + "th Step";
+        }
+        var mark = '<div id="divDirections' + directions_index + '" class="card text-white bg-primary mb-3">\
+            <div class="card-header"> ' + header + '</div >\
+                <div class="card-body">\
+                    <p class="card-text">\
+                        <textarea id="txtDirections' + directions_index + '" class="directions_inputs" onkeyup="arrange_directions(' + directions_index + ')" ></textarea>\
+                    </p>\
+                </div>\
+                    </div >';
+        $("#directions").append(mark);
+    }
 }
-function del_raw(i) {
-    //TODO: fix this to work with new container metodology
-    $("#ing" + i).remove();
+
+function arrange_ingrediants(init) {
+    console.log(init + ingredient_index)
+    var latest_ingrediant = $("#txtIngrediant" + ingredient_index)
+    //if latest direction is empty remove it
+    if (init != "init" && ingredient_index > 0 ) {
+        var latest_val = latest_ingrediant.val().trim();
+        var before_latest_val = $("#txtIngrediant" + (ingredient_index - 1)).val().trim();
+        if (latest_val == "" && before_latest_val == "") {
+            //TODO: add while loop to remove all emptys until accurate
+            $("#divIngrediant" + ingredient_index).remove();
+            ingredient_index--;
+            return;
+        }
+    }
+    //if there is no Ingrediants at all or if latest Ingrediants is full. make sure there is a new ingrediant available for filling
+    if (init == "init" || latest_ingrediant.val().trim() != "") {
+        if (init != "init") {
+            ingredient_index++
+        }
+        var header = "";
+        var num = ingredient_index + 1;
+        if (num % 10 == 1) {
+            header = num + "st";
+        } else if (num % 10 == 2) {
+            header = num + "nd";
+        } else if (num % 10 == 3) {
+            header = num + "rd";
+        } else {
+            header = num + "th";
+        }
+        markup = '<div id="divIngrediant' + ingredient_index + '" class="ingrediant_container card border-primary mb-3">\
+                    <div class="card-body">\
+                        <label style="width:60px;">' + header + '</label>\
+                        <input style="border-radius:8px;" id="txtIngrediant' + ingredient_index + '" runat="server" placeholder="Ingrediant Name" onkeyup="arrange_ingrediants(' + ingredient_index + ')" />\
+                        <a href="#" onclick="toggle_ingrediant_type(\'vegan\',' + ingredient_index + ')">\
+                        <img id="vegan_' + ingredient_index + '" alt="vegan" src="/images/icons8-vegan-food-24-toggle_off.png"/></a>\
+                        <a href="#" onclick="toggle_ingrediant_type(\'chicken\',' + ingredient_index + ')">\
+                        <img id="chicken_' + ingredient_index + '" alt="meat or chicken" src="/images/icons8-thanksgiving-24-toggle_off.png"/></a>\
+                        <a href="#" onclick="toggle_ingrediant_type(\'dairy\',' + ingredient_index + ')">\
+                        <img id="dairy_' + ingredient_index + '" alt="dairy" src="/images/icons8-cheese-24-toggle_off.png"/></a>\
+                        <a href="#" onclick="toggle_ingrediant_type(\'fish\',' + ingredient_index + ')">\
+                        <img id="fish_' + ingredient_index + '" alt="fish" src="/images/icons8-fish-food-24-toggle_off.png"/></a>\
+                        <input id="txtQuantity' + ingredient_index + '" runat="server" placeholder="quantity" style="width:60px;border-radius:8px;"/>\
+                        <select id="slQuantityUnit' + ingredient_index + '" runat="server" "class="form-control" style="width:auto;display:inline-block;">\
+                            <option>Pieces</option> \
+                            <option>Grams</option> \
+                            <option>Ounzes</option> \
+                            <option>cups</option> \
+                        </select>\
+                    </div>\
+                </div>';
+        $("#divIngrediants").append(markup);
+    }
+    return;
 }
 
-
+function toggle_ingrediant_type(type, index) {
+    img_id = "#" + type + "_" + index;
+    console.log(img_id);
+    if ($(img_id).attr("src").search("toggle_off") != -1) {
+        $(img_id).attr("src", $(img_id).attr("src").replace("toggle_off", "toggle_on"));
+        return;
+    }
+    if ($(img_id).attr("src").search("toggle_on") != -1) {
+        $(img_id).attr("src", $(img_id).attr("src").replace("toggle_on", "toggle_off"));
+        return;
+    }
+}
 
 function close_new_recipe() {
     $(".new_recipe_container").attr("hidden", true);

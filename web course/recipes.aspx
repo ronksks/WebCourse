@@ -130,48 +130,29 @@
                                     <label style="justify-content:flex-end;">Time To Prepare:</label>
                                 </td>
                                 <td class="form_row_value">
-                                    <asp:TextBox runat="server" ID="txtQuantity" cssClass="form-control" text="90" />
+                                    <asp:TextBox runat="server" ID="txtTime" cssClass="form-control" text="90" />
                                     <small class="form-text text-muted">In Minutes</small>
                                 </td>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                <table id="tbIngrediants" class="table table-bordered table-sm" style="margin-top:20px;">
-                    <thead>
-                        <tr>
-                            <th style="width:45%">Name</th>
-                            <th><img src="https://img.icons8.com/material-rounded/24/000000/vegan-food.png"/></th>
-                            <th><img src="https://img.icons8.com/material-rounded/24/000000/thanksgiving--v2.png"/></th>
-                            <th><img src="https://img.icons8.com/material-rounded/24/000000/cheese.png"/></th>
-                            <th><img src="https://img.icons8.com/material-rounded/24/000000/fish-food.png"/></th>
-                            <th style="width:30px">Quantity</th>
-                            <th style="width:30px">Units</th>
-                            <th style="width:24px">
-                            <a href="#" onclick="new_raw()">
-                                <img src="https://img.icons8.com/color/24/000000/add.png" style="float:right" />
-                            </a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-
-                <div class="directions">
+                <!--dynamic ingediants table-->
+                <div runat="server" id="divIngrediants">
+                    <h1>Ingrediants</h1>
+                    
+                </div>
+                <!--dynamic instructions / directions table-->
+                <div id="directions">
                     <h1>Directions</h1>
-                    <div class="card text-white bg-primary mb-3">
+                    <div id="divDirections0" class="card text-white bg-primary mb-3">
                         <div class="card-header">1st Step</div>
                         <div class="card-body">
                             <p class="card-text">
-                                <input id="txtDirections0" runat="server" class="directions_inputs" type="text" onkeyup="arrange_directions(0)" />
+                                <textarea id="txtDirections0" class="directions_inputs" onkeyup="arrange_directions(0)" ></textarea>
                             </p>
                         </div>
                     </div>
-                </div>
-
-                <div runat="server" id="divIngrediants">
-            
                 </div>
 
                     <div class="form-group form-inline">
