@@ -66,7 +66,7 @@ function new_raw() {
             </select>\
             <a href="#" onclick="del_raw(' + index + ')"><img class="close_window" src="https://img.icons8.com/flat_round/24/000000/minus.png" style="float: right"></a></div>';
     index++;
-    $("#dvIngrediants").append(markup);
+    $("#divIngrediants").append(markup);
 }
 function del_raw(i) {
     //TODO: fix this to work with new container metodology

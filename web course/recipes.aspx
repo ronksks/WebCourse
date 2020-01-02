@@ -147,8 +147,9 @@
                             <th style="width:30px">Quantity</th>
                             <th style="width:30px">Units</th>
                             <th style="width:24px">
-                                <!---->
-                                <asp:ImageButton ID="ibtnNewRow" Type="Button" runat="server" ImageUrl="https://img.icons8.com/color/24/000000/add.png" OnClick="ibtnNewRow_Click" />
+                            <a href="#" onclick="new_raw()">
+                                <img src="https://img.icons8.com/color/24/000000/add.png" style="float:right" />
+                            </a>
                             </th>
                         </tr>
                     </thead>
