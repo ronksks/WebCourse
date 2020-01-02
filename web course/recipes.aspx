@@ -48,10 +48,10 @@
                         <asp:ImageButton cssClass="btn btn-primary my-2 my-sm-0" id="ibtnSearch" runat="server" AlternateText="" ImageAlign="right" ImageUrl="https://img.icons8.com/material-rounded/24/000000/search.png" OnClick="ibtnSearch_Click"/>
                         <li class="nav-item">
                             <!-- TODO: add new items in dropdown like settings and more also change text to icon of account-->
-                            <a title="Favorite Recipes" class="nav-link" href="#" onclick="change_content_to('Favorites')" ><img src="https://img.icons8.com/material-rounded/24/000000/like.png"></a>                        
+                            <a title="Favorite Recipes" class="nav-link" href="#" onclick="change_content_to('Favorites')" ><img src="https://img.icons8.com/material-rounded/24/000000/like.png" /></a>
                         </li>
                         <li class="nav-item">
-                            <a title="Account info" class="nav-link" href="login.aspx" onclick="change_content_to('Account')"><img src="https://img.icons8.com/material-rounded/24/000000/user.png"></a>
+                            <a title="Account info" class="nav-link" href="login.aspx" onclick="change_content_to('Account')"><img src="https://img.icons8.com/material-rounded/24/000000/user.png" /></a>
                         </li>
                     </ul>
                 </div>
@@ -90,11 +90,10 @@
             </div>
 
             <!-- Add new Recipe view -->
-            <div class="jumbotron new_recipe_container" hidden="hidden">
+            <div class="jumbotron new_recipe_container">
                 <a href="#" onclick="close_new_recipe()"><img class="close_window" src="https://img.icons8.com/color/50/000000/close-window.png"/></a>
                 <div class="form-group">
-                    <label>Recipe Name</label>
-                    <asp:TextBox ID="txtRecipeName" runat="server" cssClass="form-control" text="Falafel Balls"/>
+                    <asp:TextBox ID="txtRecipeName" runat="server" cssClass="form-control"  placeholder="Recipe Name"/>
                     <small class="form-text text-muted">Try to keep it simple.</small>
                 </div>
                 <div class="form-group form-inline">
@@ -118,6 +117,8 @@
                             </tr>
                         </thead>
                     </table>
+
+
 
                 </div>
                 <div class="form-group form-inline">
@@ -156,13 +157,26 @@
                     <tbody></tbody>
                 </table>
 
+
+                <div class="directions">
+                    <h1>Directions</h1>
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">1st Step</div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <input id="txtDirections0" runat="server" class="directions_inputs" type="text" onkeyup="arrange_directions(0)" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div runat="server" id="divIngrediants">
             
                 </div>
+
                     <div class="form-group form-inline">
                         <label>Recipe Image:</label>
                         <asp:FileUpload id="fileuploadRecipeThumb" runat="server" />
-                        <asp:Button ID="btnUploadImage" OnClick="btnUploadImage_Click" runat="server" Text="Upload File" cssClass="btn btn-secondary"/>
                     </div>
                     <asp:Button runat="server" OnClick="btnSubmit_Click" id="btnSubmit" cssClass="btn btn-primary" text="Submit" />
                 </div>

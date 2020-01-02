@@ -69,6 +69,15 @@ namespace web_course
         protected global::System.Web.UI.WebControls.TextBox txtQuantity;
 
         /// <summary>
+        /// txtDirections0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDirections0;
+
+        /// <summary>
         /// divIngrediants control.
         /// </summary>
         /// <remarks>
@@ -85,15 +94,6 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileuploadRecipeThumb;
-
-        /// <summary>
-        /// btnUploadImage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUploadImage;
 
         /// <summary>
         /// btnSubmit control.

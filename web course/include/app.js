@@ -49,6 +49,9 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
 
 });
 
+$(document).on('input', '.directions_inputs', function () {
+    alert('Input changed');
+});
 
 function new_raw() {
     console.log("new line clicked!");
@@ -72,6 +75,8 @@ function del_raw(i) {
     //TODO: fix this to work with new container metodology
     $("#ing" + i).remove();
 }
+
+
 
 function close_new_recipe() {
     $(".new_recipe_container").attr("hidden", true);
