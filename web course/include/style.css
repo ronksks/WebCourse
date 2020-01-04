@@ -122,6 +122,11 @@ table#rblGenderSignup {
     margin: 0 auto;
 }
 
+.validation-text {
+    color: red;
+    font-weight: 500;
+}
+
 a.a-login {
     color: #ae9c20;
     font-weight: 600;

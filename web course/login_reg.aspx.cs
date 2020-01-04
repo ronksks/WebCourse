@@ -11,7 +11,7 @@ namespace web_course
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void btnSignIn_Click(object sender, EventArgs e)
@@ -21,7 +21,15 @@ namespace web_course
 
         protected void btnSignup_Click(object sender, EventArgs e)
         {
-
+            if (Page.IsValid)
+            {
+                valSummaryForm.Visible = true;
+            }
+            else
+            {
+                valSummaryForm.Visible = true;
+            }
+            ltMessage.Text = txtEmailSignup.Text + " " + txtNameSignup.Text + " " + rblGenderSignup.SelectedValue + " " + txtPasswordSignup.Text;
         }
 
         protected void btnRecover_Click(object sender, EventArgs e)

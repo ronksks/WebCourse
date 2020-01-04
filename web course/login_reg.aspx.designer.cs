@@ -49,13 +49,49 @@ namespace web_course {
         protected global::System.Web.UI.WebControls.Button btnSignIn;
         
         /// <summary>
-        /// TxtEmailSignup control.
+        /// ltMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtEmailSignup;
+        protected global::System.Web.UI.WebControls.Literal ltMessage;
+        
+        /// <summary>
+        /// valSummaryForm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary valSummaryForm;
+        
+        /// <summary>
+        /// txtEmailSignup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEmailSignup;
+        
+        /// <summary>
+        /// revEmailSignup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revEmailSignup;
+        
+        /// <summary>
+        /// rfvEmailSignup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvEmailSignup;
         
         /// <summary>
         /// txtNameSignup control.
@@ -65,6 +101,15 @@ namespace web_course {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNameSignup;
+        
+        /// <summary>
+        /// rfvNameSignup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNameSignup;
         
         /// <summary>
         /// txtDateOfBirthSignup control.
@@ -85,6 +130,15 @@ namespace web_course {
         protected global::System.Web.UI.WebControls.RadioButtonList rblGenderSignup;
         
         /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        
+        /// <summary>
         /// txtPasswordSignup control.
         /// </summary>
         /// <remarks>
@@ -92,6 +146,15 @@ namespace web_course {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPasswordSignup;
+        
+        /// <summary>
+        /// rfvPasswordVerifySignup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPasswordVerifySignup;
         
         /// <summary>
         /// txtPasswordVerifySignup control.

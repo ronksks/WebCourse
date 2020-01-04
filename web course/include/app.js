@@ -53,27 +53,14 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
 
 });
 
-
-function sign_in_recover(page) {
-    switch (page) {
-        case "sign_in":
-            $("#login").attr("hidden", false);
-            $("#recover").attr("hidden", true);
-            $("#signup").attr("hidden", true);
-            break;
-        case "recover":
-            $("#recover").attr("hidden", false);
-            $("#login").attr("hidden", true);
-            $("#signup").attr("hidden", true);
-            break;
-        case "register":
-            $("#recover").attr("hidden", true);
-            $("#login").attr("hidden", true);
-            $("#signup").attr("hidden", false);
-            break;
+$(document).ready(function () {
+    change_content_to(localStorage["CurrentViewName"]);
+    if (localStorage["NewRecipeWindow"] == "true") {
+        show_new_recipe_form()
+    } else {
+        close_new_recipe()
     }
-    return;
-}
+});
 
 function arrange_directions(i) {
     var latest_directions = $("#txtDirections" + directions_index)
@@ -183,38 +170,46 @@ function toggle_ingrediant_type(type, index) {
 }
 
 function close_new_recipe() {
+    localStorage["NewRecipeWindow"] = false;
     $(".new_recipe_container").attr("hidden", true);
-    console.log("close clicked");
 }
 
 function show_new_recipe_form() {
+    localStorage["NewRecipeWindow"] = true;
     $(".new_recipe_container").attr("hidden", false);
 }
 
 function change_content_to(page_name) {
     switch(page_name) {
         case "Browse":
+            localStorage["CurrentViewName"] = "Browse";
             $(".recipes_container").attr("hidden", false);
             $(".home").attr("hidden", true);
             $(".categories_page").attr("hidden", true);
             break;
         case "Categories":
+            localStorage["CurrentViewName"] = "Categories";
             $(".recipes_container").attr("hidden", true);
             $(".home").attr("hidden", true);
             $(".categories_page").attr("hidden", false);
             break;
         case "Home":
+            localStorage["CurrentViewName"] = "Home";
             $(".recipes_container").attr("hidden", true);
             $(".home").attr("hidden", false);
             $(".categories_page").attr("hidden", true);
             break;
         case "Favorites":
+            localStorage["CurrentViewName"] = "Favorites";
             break;
         case "Account":
+            localStorage["CurrentViewName"] = "Account";
             break;
         case "Search":
+            localStorage["CurrentViewName"] = "Search";
             break;
         case "AdvancedSearch":
+            localStorage["CurrentViewName"] = "AdvancedSearch";
             break;
         default:
             console.log("default in swtich");
