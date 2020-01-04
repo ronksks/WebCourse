@@ -6,10 +6,9 @@
     height: 100%;
     width: 80px;
     position: fixed;
-    top: 0;
+    top: 56px;
     right: 0;
     overflow-x: hidden;
-    padding-top: 10%;
     z-index: 0;
 }
 
@@ -46,12 +45,12 @@
     max-height: 60%;
     border: 2px dashed black;
 }
+
 .login_container {
-    width:300px;
-    position:fixed;
-    right:0;
-    top:0;
+    margin: 10% 40% 0 40%;
+    min-width: 270px;
 }
+
 .recipe {
     max-width: 20rem;
     float: left;
@@ -81,6 +80,59 @@
     background-color:gray;
     max-height:5%;
     width:100%;
+}
+
+.wrap-login {
+    text-align: center;
+}
+
+.login-form-title {
+    margin-bottom: 31px;
+    display: block;
+    font-size: 1.7rem;
+}
+
+.login_container {
+    box-shadow: 0px 1px 28px 7px;
+    background-color: #eeeeeed6!important;
+    border-radius: 2.3rem!important;
+}
+
+.container-login-form-btn {
+    margin-bottom: 3rem;
+}
+
+.login_container {
+    padding-bottom: 1rem!important;
+}
+
+.login-form-btn {
+    border-radius: 1rem;
+    width: 100%;
+    height: 3.5rem;
+    margin: 0.4rem;
+    background-image: linear-gradient(0deg, #c5c04b, #ffeb83);
+}
+
+.gender-radio > tbody > tr {
+    float: left;
+    margin: 0 1rem;
+}
+table#rblGenderSignup {
+    margin: 0 auto;
+}
+
+a.a-login {
+    color: #ae9c20;
+    font-weight: 600;
+}
+
+.input100 {
+    height: 3rem;
+    border-radius: 1rem;
+    padding: 0.3rem;
+    width: 100%;
+    margin: 0.4rem;
 }
 
 label {
@@ -126,5 +178,10 @@ label {
         position: absolute;
         top: -6px;
         right: -9px;
+    }
+
+    .login_container {
+        margin: 0;
+        min-width: unset;
     }
 }

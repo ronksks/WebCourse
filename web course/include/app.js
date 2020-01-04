@@ -53,6 +53,28 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
 
 });
 
+
+function sign_in_recover(page) {
+    switch (page) {
+        case "sign_in":
+            $("#login").attr("hidden", false);
+            $("#recover").attr("hidden", true);
+            $("#signup").attr("hidden", true);
+            break;
+        case "recover":
+            $("#recover").attr("hidden", false);
+            $("#login").attr("hidden", true);
+            $("#signup").attr("hidden", true);
+            break;
+        case "register":
+            $("#recover").attr("hidden", true);
+            $("#login").attr("hidden", true);
+            $("#signup").attr("hidden", false);
+            break;
+    }
+    return;
+}
+
 function arrange_directions(i) {
     var latest_directions = $("#txtDirections" + directions_index)
     //if latest direction is empty remove it

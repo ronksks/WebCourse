@@ -7,12 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>My Kitchen Web App</title>
-    <link href="include/bootstrap.min.css" rel="stylesheet" />
-    <link href="include/style.css" rel="stylesheet" />
-    <script src="include/jquery-2.0.0.min.js"></script>
-    <script src="include/angular.min.js"></script>
-    <script src="include/classes.js"></script>
-    <script src="include/app.js"></script>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
     <form id="form1" runat="server">
@@ -20,7 +14,7 @@
             <!-- Navigation bar -->
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
                 <a class="navbar-brand" href="#" onclick="change_content_to('Home')">
-                    <img src="https://img.icons8.com/flat_round/30/000000/home.png">
+                    <img src="https://img.icons8.com/flat_round/30/000000/home.png"/>
                     <!--KitchenApp-->
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,12 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link"onclick="change_content_to('Categories')" href="#">Categories</a>
                         </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link" onclick="change_content_to(Favorites)"href="#">Favorites</a>
-                        </li>-->
-                        <!--<li class="nav-item">
-        <a class="nav-link" href="#">About</a>
-        </li>-->
+
                         <asp:TextBox runat="server" CssClass="form-control mr-sm-2" id="txtSearch" Text="Search" />
                         <asp:ImageButton cssClass="btn btn-primary my-2 my-sm-0" id="ibtnSearch" runat="server" AlternateText="" ImageAlign="right" ImageUrl="https://img.icons8.com/material-rounded/24/000000/search.png" OnClick="ibtnSearch_Click"/>
                         <li class="nav-item">
@@ -51,12 +40,12 @@
                             <a title="Favorite Recipes" class="nav-link" href="#" onclick="change_content_to('Favorites')" ><img src="https://img.icons8.com/material-rounded/24/000000/like.png" /></a>
                         </li>
                         <li class="nav-item">
-                            <a title="Account info" class="nav-link" href="login.aspx" onclick="change_content_to('Account')"><img src="https://img.icons8.com/material-rounded/24/000000/user.png" /></a>
+                            <a title="Account info" class="nav-link" href="login_reg.aspx" onclick="change_content_to('Account')"><img src="https://img.icons8.com/material-rounded/24/000000/user.png" /></a>
                         </li>
                     </ul>
                 </div>
             </nav>
-        
+
             <!-- sidebar -->
             <div class="sidenav">
                 <a href="#" data-toggle="tooltip" title="Add New Recipe" onclick="show_new_recipe_form()"><img src="https://img.icons8.com/cute-clipart/64/000000/add-property.png"></a>
@@ -164,10 +153,17 @@
 
             <!--TODO: Ron.Y add a view recipe container-->
             
-            </div>
+        </div>
+        <!-- Footer -->
         <div class="footer">
         <a href="https://icons8.com/icon/45894/kitchenwares">icons by Icons8</a>
     </div>
     </form>
+    <link href="include/style.css" rel="stylesheet" />
+    <script src="include/jquery-2.0.0.min.js"></script>
+    <link href="include/bootstrap_journal.min.css" rel="stylesheet" />
+    <script src="include/angular.min.js"></script>
+    <script src="include/classes.js"></script>
+    <script src="include/app.js"></script>
 </body>
 </html>

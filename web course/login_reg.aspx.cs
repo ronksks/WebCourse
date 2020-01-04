@@ -13,6 +13,22 @@ namespace web_course
         {
 
         }
+
+        protected void btnSignIn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnSignup_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnRecover_Click(object sender, EventArgs e)
+        {
+
+        }
+        
     }
     public class PasswordTextBox : TextBox
     {
