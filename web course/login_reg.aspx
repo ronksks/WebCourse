@@ -54,6 +54,12 @@
                         <div class="container-login-form-btn">
                             <asp:Button runat="server" ID="btnSignIn" text="Sign in" onclick="btnSignIn_Click" cssClass="login-form-btn"></asp:Button>
                         </div>
+                        <asp:Panel runat="server" CssClass="alert alert-danger" ID="pnlLoginFail" Visible="false">
+                        LogIn Authentication Failed! try again.
+                        </asp:Panel>
+                        <asp:Panel runat="server" CssClass="alert alert-danger" ID="pnlEmailError" Visible="false">
+                        Email provided is not valid! Try again.
+                        </asp:Panel>
                         <div class="text-center">
                             <span class="txt1">
                                 Forgot

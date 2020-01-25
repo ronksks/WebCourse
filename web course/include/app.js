@@ -1,21 +1,5 @@
 //Definitions
 
-//food ingrediants source types
-// bitwise:
-// 1 - vegan
-// 2 - dairy
-// 4 - meat
-// 8 - fish
-VEGAN = 1;
-DAIRY = 2;
-MEAT = 4;
-FISH = 8;
-
-
-//Gender Definition
-MALE = 0;
-FEMALE = 1;
-
 // new recipe form definitions.
 ingredient_index = 0;      // index of ingrediant count
 directions_index = 0;      // index of directions count

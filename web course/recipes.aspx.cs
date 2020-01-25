@@ -18,6 +18,11 @@ namespace web_course
         protected void Page_Load(object sender, EventArgs e)
         {
             //ibtnNewRow.Style = "float:right";
+            if (Session["fname"] != null)
+            {
+                //user is logged in
+                var email = Session["email"];
+            }
         }
 
         protected void ibtnSearch_Click(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -16,7 +17,38 @@ namespace web_course
 
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
+            using (var db = new KitchenAppContext())
+            {
+                if (isValidEmail(txtEmail.Text))
+                {
+                    //var user = db.Users.FirstOrDefault();
+                    var user = db.Users.Where(i => i.email.Trim() == txtEmail.Text.Trim() && i.password.Trim() == txtPassword.Text.Trim()).FirstOrDefault();
+                    if (user == null)
+                    {
+                        //show login failed!
+                        pnlLoginFail.Visible = true;
+                    }
+                    else
+                    {
+                        Session["email"] = user.email.Trim();
+                        Session["uid"] = user.id;
+                        Session["fname"] = user.fname.Trim();
+                        Session["lname"] = user.lname.Trim();
+                        Session["isadmin"] = user.isadmin;
+                        Response.Redirect("recipes.aspx");
+                    }
+                }
+                else
+                {
+                    //show login failed! due to ilegal email address
+                    pnlEmailError.Visible = true;
+                }
+            }
+        }
 
+        private bool isValidEmail(String email)
+        {
+           return true;
         }
 
         protected void btnSignup_Click(object sender, EventArgs e)

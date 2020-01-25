@@ -1,3 +1,15 @@
+//food ingrediants source types
+// bitwise:
+VEGAN = 1;
+DAIRY = 2;
+MEAT = 4;
+FISH = 8;
+
+
+//Gender Definition
+MALE = 0;
+FEMALE = 1;
+
 class Recipe {
     constructor(id, title, time_to_prepare, path_to_thumbnail, rate, ingredients, description, user) {
         this.id = id;
@@ -10,20 +22,39 @@ class Recipe {
         this.user = user;
     }
 
-    isVegetarian() {
-        return true;
-    }
+    //isVegetarian() {
+    //    for (i = 0; i < ingredients.length; i++) {
+    //        if (!ingredients[i].isVegetarian()) return false;
+    //    }
+    //    return true;
+    //}
 
-    isDairy() {
-        return true;
+    containsDairy() {
+        for (i = 0; i < this.ingredients.length; i++) {
+            if (this.ingredients[i].isDairy()) return true;
+        }
+        return false;
     }
 
     isVegan() {
+        for (i = 0; i < this.ingredients.length; i++) {
+            if (!this.ingredients[i].isVegan()) return false;
+        }
         return true;
     }
 
     containsMeat() {
-        return true;
+        for (i = 0; i < this.ingredients.length; i++) {
+            if (this.ingredients[i].containsMeat()) return true;
+        }
+        return false;
+    }
+
+    containsFish() {
+        for (i = 0; i < this.ingredients.length; i++) {
+            if (this.ingredients[i].containsFish()) return true;
+        }
+        return false;
     }
 
 }
@@ -38,32 +69,36 @@ class Ingredient {
         this.source = source;       //mention if its vegan, meat, dairy, other (bitwise)
     }
 
-    isVegetarian() {
-        return true;
-    }
+    //isVegetarian() {
+    //    return this.source & VE;
+    //}
 
     isDairy() {
-        return true;
+        return this.source & DAIRY;
     }
 
     isVegan() {
-        return true;
+        return this.source & VEGAN;
     }
 
     containsMeat() {
-        return true;
+        return this.source & MEAT;
     }
 
+    containsFish() {
+        return this.source & FISH;
+    }
 }
 
 class User {
-    constructor(id, fname, lname, gender, bdate, favoriteRecipes) {
+    constructor(id, fname, email, lname, gender, bdate, favoriteRecipes) {
         this.id = id;
         this.firstName = fname;
         this.lastName = lname;
         this.gender = gender;
         this.birthDate = bdate;
         this.favoriteRecipes = favoriteRecipes;
+        this.email = email;
     }
 }
 
