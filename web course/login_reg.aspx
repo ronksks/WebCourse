@@ -13,25 +13,32 @@
         });
 
         function sign_in_recover(page) {
+            var clean_ids = [];
             switch (page) {
                 case "sign_in":
                     localStorage["CurrentViewName"] = "sign_in";
                     $("#login").attr("hidden", false);
                     $("#recover").attr("hidden", true);
                     $("#signup").attr("hidden", true);
+                    clean_ids = ["#txtEmailSignup", "#txtNameSignup", "#txtDateOfBirthSignup", "#txtPasswordSignup", "#rfvPasswordVerifySignup","#txtEmailRecover"];
                     break;
                 case "recover":
                     localStorage["CurrentViewName"] = "recover";
                     $("#recover").attr("hidden", false);
                     $("#login").attr("hidden", true);
                     $("#signup").attr("hidden", true);
+                    clean_ids = ["#txtEmailSignup", "#txtNameSignup", "#txtDateOfBirthSignup", "#txtPasswordSignup", "#rfvPasswordVerifySignup", "#txtEmail", "#txtPassword"];
                     break;
                 case "register":
                     localStorage["CurrentViewName"] = "register";
                     $("#recover").attr("hidden", true);
                     $("#login").attr("hidden", true);
                     $("#signup").attr("hidden", false);
+                    clean_ids = ["#txtEmail", "#txtPassword", "#txtEmailRecover"];
                     break;
+            }
+            for (let i = 0; i < clean_ids.length; i++) {
+                $(clean_ids[i]).val('');
             }
             return;
         }
@@ -52,7 +59,7 @@
                         <asp:TextBox runat="server" cssClass="input100" ID="txtPassword" placeholder="password" type="password"></asp:TextBox>
                         </div>
                         <div class="container-login-form-btn">
-                            <asp:Button runat="server" ID="btnSignIn" text="Sign in" onclick="btnSignIn_Click" cssClass="login-form-btn"></asp:Button>
+                            <asp:Button runat="server" ID="btnSignIn" text="Sign in" onclick="btn_Click" cssClass="login-form-btn"></asp:Button>
                         </div>
                         <asp:Panel runat="server" CssClass="alert alert-danger" ID="pnlLoginFail" Visible="false">
                         LogIn Authentication Failed! try again.
@@ -86,10 +93,13 @@
                         </div>
                 </div>
              
+             
+                     <asp:Label ID="lblSucessSignUp" runat="server"></asp:Label>
+
              <!--registration page-->
-            <div id="signup" class="wrap-login" hidden="hidden">
+            <asp:Panel runat="server" ID="signup" cssClass="wrap-login" hidden="hidden">
                 <p class="bg-primary">
-                    <asp:Literal ID="ltMessage" runat="server"></asp:Literal>
+                    <asp:Label ID="lblMessage" runat="server"></asp:Label>
                     <asp:ValidationSummary runat="server" ID="valSummaryForm" CssClass="bg-error" ValidationGroup="signupForm" DisplayMode="BulletList" HeaderText="Please Fix the following errors." Visible="false"/>
                 </p>
                 <span class="login-form-title">
@@ -120,7 +130,7 @@
                 <asp:TextBox runat="server" cssClass="input100" ID="txtPasswordVerifySignup" placeholder="password" type="password"></asp:TextBox>    
                 </div>
                 <div class="container-login-form-btn">
-                    <asp:Button runat="server" ID="btnSignup" text="Create Account" onclick="btnSignup_Click" cssClass="login-form-btn"></asp:Button>
+                    <asp:Button runat="server" ID="btnSignup" text="Create Account" onclick="btn_Click" cssClass="login-form-btn"></asp:Button>
                 </div>
                 <div class="text-center">
                     <span class="txt1">
@@ -138,7 +148,7 @@
                         guest
                     </a>
                 </div>
-            </div>
+            </asp:Panel>
 
              <!--recover page-->
              <div id="recover" class="wrap-login" hidden="hidden">
@@ -149,7 +159,7 @@
                         <asp:TextBox runat="server" cssClass="input100" ID="txtEmailRecover" type="email" autocomplete="off" placeholder="Email"></asp:TextBox>
                         </div>
                         <div class="container-login-form-btn">
-                            <asp:Button runat="server" ID="btnRecover" text="Recover" onclick="btnRecover_Click" cssClass="login-form-btn"></asp:Button>
+                            <asp:Button runat="server" ID="btnRecover" text="Recover" onclick="btn_Click" cssClass="login-form-btn"></asp:Button>
                         </div>
                         <div class="text-center">
                             <span class="txt1">

@@ -12,10 +12,17 @@
     z-index: 0;
 }
 
-.navbar {
-
+.floating-account-info {
+    width: 17%;
+    min-width: 300px!important;
+    position: fixed!important;
+    top: 63px;
+    right: 80px;
 }
 
+.navbar-nav-right {
+    margin-right:80px;
+}
 .ingrediant_container {
     position: relative;
 }

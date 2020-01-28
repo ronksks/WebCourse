@@ -21,13 +21,12 @@ namespace web_course
         }
     
         public int id { get; set; }
-        public string fname { get; set; }
-        public string lname { get; set; }
         public Nullable<System.DateTime> bdate { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public byte[] gender { get; set; }
-        public byte[] isadmin { get; set; }
+        public string name { get; set; }
+        public Nullable<int> isadmin { get; set; }
+        public Nullable<int> gender { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recipe> Recipes { get; set; }

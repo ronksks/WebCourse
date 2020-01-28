@@ -13,10 +13,10 @@ namespace web_course
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class KitchenAppContext : DbContext
+    public partial class KitchenAppDBEntities : DbContext
     {
-        public KitchenAppContext()
-            : base("name=KitchenAppContext")
+        public KitchenAppDBEntities()
+            : base("name=KitchenAppDBEntities")
         {
         }
     

@@ -158,6 +158,10 @@ function close_new_recipe() {
     $(".new_recipe_container").attr("hidden", true);
 }
 
+function close_account_floaty() {
+    $(".floating-account-info").attr("hidden", true);
+}
+
 function show_new_recipe_form() {
     localStorage["NewRecipeWindow"] = true;
     $(".new_recipe_container").attr("hidden", false);
@@ -187,7 +191,7 @@ function change_content_to(page_name) {
             localStorage["CurrentViewName"] = "Favorites";
             break;
         case "Account":
-            localStorage["CurrentViewName"] = "Account";
+            $(".floating-account-info").attr("hidden", false);
             break;
         case "Search":
             localStorage["CurrentViewName"] = "Search";

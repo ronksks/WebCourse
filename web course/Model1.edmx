@@ -31,24 +31,23 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="title" Type="nchar" MaxLength="256" Nullable="false" />
-          <Property Name="time" Type="datetime" Nullable="false" />
           <Property Name="img_path" Type="nchar" MaxLength="256" />
           <Property Name="rate" Type="int" />
           <Property Name="description" Type="nchar" MaxLength="1024" Nullable="false" />
           <Property Name="owner" Type="int" Nullable="false" />
+          <Property Name="time" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fname" Type="nchar" MaxLength="25" Nullable="false" />
-          <Property Name="lname" Type="nchar" MaxLength="15" />
           <Property Name="bdate" Type="date" />
           <Property Name="email" Type="nchar" MaxLength="60" Nullable="false" />
           <Property Name="password" Type="nchar" MaxLength="256" Nullable="false" />
-          <Property Name="gender" Type="binary" MaxLength="1" />
-          <Property Name="isadmin" Type="binary" MaxLength="1" />
+          <Property Name="name" Type="nchar" MaxLength="64" />
+          <Property Name="isadmin" Type="int" />
+          <Property Name="gender" Type="int" />
         </EntityType>
         <Association Name="FK_IngredientsInRecipes_Ingredients">
           <End Role="Ingredients" Type="Self.Ingredients" Multiplicity="1" />
@@ -131,11 +130,11 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="title" Type="String" MaxLength="256" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="img_path" Type="String" MaxLength="256" FixedLength="true" Unicode="true" />
           <Property Name="rate" Type="Int32" />
           <Property Name="description" Type="String" MaxLength="1024" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="owner" Type="Int32" Nullable="false" />
+          <Property Name="time" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Self.FK_Recipes_Users" FromRole="Recipes" ToRole="Users" />
           <NavigationProperty Name="Ingredients" Relationship="Self.IngredientsInRecipes" FromRole="Recipes" ToRole="Ingredients" />
         </EntityType>
@@ -144,13 +143,12 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fname" Type="String" MaxLength="25" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="lname" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="bdate" Type="DateTime" Precision="0" />
           <Property Name="email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="256" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="gender" Type="Binary" MaxLength="1" FixedLength="true" />
-          <Property Name="isadmin" Type="Binary" MaxLength="1" FixedLength="true" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="true" Unicode="true" />
+          <Property Name="isadmin" Type="Int32" />
+          <Property Name="gender" Type="Int32" />
           <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipes_Users" FromRole="Users" ToRole="Recipes" />
         </EntityType>
         <Association Name="FK_Recipes_Users">
@@ -169,7 +167,7 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
           <End Role="Ingredients" Type="Self.Ingredient" Multiplicity="*" />
           <End Role="Recipes" Type="Self.Recipe" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="KitchenAppContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="KitchenAppDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
           <EntitySet Name="Recipes" EntityType="Self.Recipe" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -187,7 +185,7 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="KitchenAppDBModelStoreContainer" CdmEntityContainer="KitchenAppContext">
+        <EntityContainerMapping StorageEntityContainer="KitchenAppDBModelStoreContainer" CdmEntityContainer="KitchenAppDBEntities">
           <EntitySetMapping Name="Ingredients">
             <EntityTypeMapping TypeName="KitchenAppDBModel.Ingredient">
               <MappingFragment StoreEntitySet="Ingredients">
@@ -204,11 +202,11 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
               <MappingFragment StoreEntitySet="Recipes">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="time" ColumnName="time" />
                 <ScalarProperty Name="img_path" ColumnName="img_path" />
                 <ScalarProperty Name="rate" ColumnName="rate" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="owner" ColumnName="owner" />
+                <ScalarProperty Name="time" ColumnName="time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -216,13 +214,12 @@ warning 6002: The table/view 'KitchenAppDB.dbo.IngredientsInRecipes' does not ha
             <EntityTypeMapping TypeName="KitchenAppDBModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="fname" ColumnName="fname" />
-                <ScalarProperty Name="lname" ColumnName="lname" />
                 <ScalarProperty Name="bdate" ColumnName="bdate" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="isadmin" ColumnName="isadmin" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
