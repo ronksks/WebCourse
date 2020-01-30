@@ -4,12 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="196ae008dd5f4593ba146a812d6b5316" Name="Diagram1">
-        <EntityTypeShape EntityType="KitchenAppDBModel.Ingredient" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+      <Diagram DiagramId="d82a31720b6b4e50b5b69ca5f5a63f38" Name="Diagram1">
+        <EntityTypeShape EntityType="KitchenAppDBModel.Ingredient" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="KitchenAppDBModel.Recipe" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="KitchenAppDBModel.User" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KitchenAppDBModel.User" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="KitchenAppDBModel.IngredientsInRecipe" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="KitchenAppDBModel.FK_IngredientsInRecipes_Ingredients" ManuallyRouted="false" />
+        <AssociationConnector Association="KitchenAppDBModel.FK_IngredientsInRecipes_Recipes" ManuallyRouted="false" />
         <AssociationConnector Association="KitchenAppDBModel.FK_Recipes_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="KitchenAppDBModel.IngredientsInRecipes" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -21,7 +21,7 @@ namespace web_course
         {
             if(!String.IsNullOrEmpty(txtEmail.Text))
             {
-                using (var db = new KitchenAppDBEntities())
+                using (var db = new KitchenAppDBEntities1())
                 {
                     if (IsValidEmail(txtEmail.Text))
                     {
@@ -82,7 +82,7 @@ namespace web_course
                     return;
                 }
 
-                using (var db = new KitchenAppDBEntities())
+                using (var db = new KitchenAppDBEntities1())
                 {
                     var p = db.Users.Where(i => i.email == txtEmailSignup.Text).FirstOrDefault();
                     if (p != null)

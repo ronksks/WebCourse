@@ -93,6 +93,9 @@
     <Compile Include="Ingredient.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="IngredientsInRecipe.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="login_reg.aspx.cs">
       <DependentUpon>login_reg.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

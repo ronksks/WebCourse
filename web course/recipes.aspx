@@ -7,11 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>My Kitchen Web App</title>
-    <style>
-        .recipeField {
-            max-width: 20rem;
-        }
-    </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
     <form id="form1" runat="server">
@@ -209,18 +204,20 @@
                         </table>
                     </div>
                     <!--dynamic ingediants table-->
+                    <asp:TextBox runat="server" ID="txtIngrediants" ></asp:TextBox>
                     <div runat="server" id="divIngrediants">
                         <h1>Ingrediants</h1>
-                    
+                        
                     </div>
                     <!--dynamic instructions / directions table-->
                     <div id="directions">
                         <h1>Directions</h1>
                         <div id="divDirections0" class="card text-white bg-primary mb-3">
-                            <div class="card-header">1st Step</div>
+                            <div class="card-header">Step by step directions</div>
                             <div class="card-body">
                                 <p class="card-text">
-                                    <textarea id="txtDirections0" class="directions_inputs" onkeyup="arrange_directions(0)" ></textarea>
+                                    <%--onkeyup="arrange_directions(0)"--%>
+                                    <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDirections0" cssClass="directions_inputs" ></asp:TextBox>
                                 </p>
                             </div>
                         </div>
@@ -230,7 +227,7 @@
                         <label>Recipe Image:</label>
                         <asp:FileUpload id="fileuploadRecipeThumb" runat="server" />
                     </div>
-                    <asp:Button runat="server" OnClick="btnSubmit_Click" id="btnSubmit" cssClass="btn btn-primary" text="Submit" />
+                    <asp:Button runat="server" OnClick="btnSubmit_Click" id="btnSubmit" cssClass="btn btn-primary" text="Submit" type="submit"/>
                  </asp:Panel>
                 </div>
 
@@ -252,8 +249,8 @@
         </div>
         <!-- Footer -->
         <div class="footer">
-        <a href="https://icons8.com/icon/45894/kitchenwares">icons by Icons8</a>
-    </div>
+            <a href="https://icons8.com/icon/45894/kitchenwares">icons by Icons8</a>
+        </div>
     </form>
     <link href="include/style.css" rel="stylesheet" />
     <script src="include/jquery-2.0.0.min.js"></script>

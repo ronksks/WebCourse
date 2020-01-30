@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -32,7 +33,7 @@ namespace web_course
                 setGuestFloaty();
             }
 
-            using (var db = new KitchenAppDBEntities())
+            using (var db = new KitchenAppDBEntities1())
             {
                 myRecipes.DataSource = db.Recipes.ToList();
                 myRecipes.DataBind();
@@ -76,25 +77,83 @@ namespace web_course
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (Session["fname"] != null)
+            
+            if (Session["uid"] != null)
             {
-                //TODO: a lot of shit happens here. validation of inputs and sql query to insert new recipe to SQL
+                int owner_id = (int)Session["uid"];
+                //adding ingrediants to database
+                string[] strs_ings = txtIngrediants.Text.Split('|');
+                ArrayList ingrediants = new ArrayList();
+                Dictionary<Ingredient, string> ings_qty_Map = new Dictionary<Ingredient, string>();
+                using (var db = new KitchenAppDBEntities1())
+                {
+                    foreach (string ing in strs_ings)
+                    {
+                        string[] info = ing.Split(',');
+                        if (info.Length < 5) { continue; }
+                        Ingredient tmp = new Ingredient();
+                        tmp.name = info[1];
+                        tmp.source = Int16.Parse(info[2]);
+                        ings_qty_Map[tmp] = info[3];
+                        tmp.unit_type = info[4];
+                        ingrediants.Add(tmp);
+                        //FIXME: bug here still creating new ingredients even when exist
+                        var first = db.Ingredients.Where(i => i.name.Trim() == tmp.name.Trim()).FirstOrDefault();
+                        if (first == null) {
+                            db.Ingredients.Add(tmp);
+                        }
+                    }
+                    db.SaveChanges();
+                }
+
+
+                //adding recipe to database
+
+                Recipe rcp = new Recipe();
+                rcp.title = txtRecipeName.Text;
+                rcp.owner = owner_id;
+                rcp.rate = 0;
+                rcp.time = Int16.Parse(txtTime.Text);
+                rcp.description = txtDirections0.Text;
 
                 //upload image to image folder
                 //TODO: amke sure image does not alreay exists and if it does check what happends when you reupload it if it automatically renames it or overwites it
                 //if overwrite... make sure rename happens.
+                string relativePath = "";
                 using (FileUpload fileuploadRecipeThumb1 = fileuploadRecipeThumb)
                 {
+                    relativePath = "/images/recipes/" + fileuploadRecipeThumb1.FileName;
                     string ServerMapPath = Server.MapPath("~//images//recipes//" + fileuploadRecipeThumb1.FileName);
-                    fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);
+                    fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);  
                 }
+                rcp.img_path = relativePath;
+
+                using (var db = new KitchenAppDBEntities1())
+                {
+                    db.Recipes.Add(rcp);
+                    db.SaveChanges();
+                    
+                    foreach (Ingredient i in ingrediants)
+                    {
+                        IngredientsInRecipe ingInRec = new IngredientsInRecipe();
+                        ingInRec.ingredient_id = i.id;
+                        ingInRec.recipe_id = rcp.id;
+                        ingInRec.qty = ings_qty_Map[i];
+                        ingInRec.Recipe = rcp;
+                        ingInRec.Ingredient = i;
+                        db.IngredientsInRecipes.Add(ingInRec);
+                    }
+                    db.SaveChanges();
+                }
+
+
             } 
             else
             {
 
             }
-            
-
+            LocalDataStoreSlot[""]
+            Response.Redirect("recipes.aspx");
 
 
         }

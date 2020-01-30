@@ -17,7 +17,7 @@ namespace web_course
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Recipe()
         {
-            this.Ingredients = new HashSet<Ingredient>();
+            this.IngredientsInRecipes = new HashSet<IngredientsInRecipe>();
         }
     
         public int id { get; set; }
@@ -28,8 +28,8 @@ namespace web_course
         public int owner { get; set; }
         public Nullable<int> time { get; set; }
     
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ingredient> Ingredients { get; set; }
+        public virtual ICollection<IngredientsInRecipe> IngredientsInRecipes { get; set; }
+        public virtual User User { get; set; }
     }
 }
