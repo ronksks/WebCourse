@@ -31,5 +31,53 @@ namespace web_course
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngredientsInRecipe> IngredientsInRecipes { get; set; }
         public virtual User User { get; set; }
+
+        internal bool isVegan()
+        {
+            foreach (IngredientsInRecipe i in IngredientsInRecipes)
+            {
+                if (i.Ingredient.containsMeat() || i.Ingredient.containsDairy() || i.Ingredient.containsFish())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        internal bool containsDairy()
+        {
+            foreach (IngredientsInRecipe i in IngredientsInRecipes)
+            {
+                if (i.Ingredient.containsDairy())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal bool containsMeat()
+        {
+            foreach (IngredientsInRecipe i in IngredientsInRecipes)
+            {
+                if (i.Ingredient.containsMeat())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal bool containsFish()
+        {
+            foreach (IngredientsInRecipe i in IngredientsInRecipes)
+            {
+                if (i.Ingredient.containsFish())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

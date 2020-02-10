@@ -11,7 +11,7 @@ MEAT = 4;
 FISH = 8;
 
 
-angular.module('kitchenApp', []).controller('mainController', function ($scope) {
+//angular.module('kitchenApp', []).controller('mainController', function ($scope) {
     //creating fake objects because no database is set up yet.
     //var rec_path = "https://www.diabetes.org/sites/default/files/styles/crop_large/public/2019-06/Healthy%20Food%20Made%20Easy%20-min.jpg";
     //var ing_path = "https://image.shutterstock.com/image-photo/red-apple-on-white-background-600w-158989157.jpg";
@@ -25,6 +25,8 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
     //}
     //$scope.fullStarPath = "https://img.icons8.com/emoji/24/000000/star-emoji.png";
     //$scope.emptyStarPath = "https://img.icons8.com/color/24/000000/star--v1.png";
+    //console.log("done with assignment");
+    //console.log($scope.recipes);
     //$scope.range = function (num) {
     //    var ret = new Array(num);
     //    for (i = 0; i < num; i++) ret[i] = i;
@@ -37,58 +39,57 @@ angular.module('kitchenApp', []).controller('mainController', function ($scope) 
     //    }
     //    return ret;
     //}
-    //console.log("done with assignment");
-    //console.log($scope.recipes);
-    arrange_ingrediants("init");
-
-});
+//});
 
 $(document).ready(function () {
+    console.log("Document ready");
+    arrange_ingrediants("init");
     change_content_to(localStorage["CurrentViewName"]);
-    if (localStorage["NewRecipeWindow"] == "true") {
-        show_new_recipe_form()
-    } else {
-        close_new_recipe()
-    }
+    //if (localStorage["NewRecipeWindow"] == "true") {
+    //    show_new_recipe_form()
+    //} else {
+    //    close_new_recipe()
+    //}
 });
 
-//function arrange_directions(i) {
-//    var latest_directions = $("#txtDirections" + directions_index)
-//    //if latest direction is empty remove it
-//    if (directions_index > 0) {
-//        var latest_val = latest_directions.val().trim();
-//        var before_latest_val = $("#txtDirections" + (directions_index - 1)).val().trim();
-//        if (latest_val == "" && before_latest_val == "") {
-//            $("#divDirections" + directions_index).remove();
-//            directions_index--;
-//            return;
-//        }
-//    }
-//    //if latest direction is full. make sure there is a new direction available for filling
-//    if (latest_directions.val().trim() != "") {
-//        directions_index++;
-//        var header = "";
-//        var num = directions_index + 1;
-//        if (num % 10 == 1) {
-//            header = num + "st Step";
-//        } else if (num % 10 == 2) {
-//            header = num + "nd Step";
-//        } else if (num % 10 == 3) {
-//            header = num + "rd Step";
-//        } else {
-//            header = num + "th Step";
-//        }
-//        var mark = '<div id="divDirections' + directions_index + '" class="card text-white bg-primary mb-3">\
-//            <div class="card-header"> ' + header + '</div >\
-//                <div class="card-body">\
-//                    <p class="card-text">\
-//                        <textarea id="txtDirections' + directions_index + '" class="directions_inputs" onkeyup="arrange_directions(' + directions_index + ')" ></textarea>\
-//                    </p>\
-//                </div>\
-//                    </div >';
-//        $("#directions").append(mark);
-//    }
-//}
+function arrange_directions(i) {
+    console.log(directions_index);
+    var latest_directions = $("#txtDirections" + directions_index);
+    //if latest direction is empty remove it
+    if (directions_index > 0) {
+        var latest_val = latest_directions.val().trim();
+        var before_latest_val = $("#txtDirections" + (directions_index - 1)).val().trim();
+        if (latest_val == "" && before_latest_val == "") {
+            $("#divDirections" + directions_index).remove();
+            directions_index--;
+            return;
+        }
+    }
+    //if latest direction is full. make sure there is a new direction available for filling
+    if (latest_directions.val().trim() != "") {
+        directions_index++;
+        var header = "";
+        var num = directions_index + 1;
+        if (num % 10 == 1) {
+            header = num + "st Step";
+        } else if (num % 10 == 2) {
+            header = num + "nd Step";
+        } else if (num % 10 == 3) {
+            header = num + "rd Step";
+        } else {
+            header = num + "th Step";
+        }
+        var mark = '<div id="divDirections' + directions_index + '" class="card text-white bg-primary mb-3">\
+            <div class="card-header"> ' + header + '</div >\
+                <div class="card-body">\
+                    <p class="card-text">\
+                        <textarea id="txtDirections' + directions_index + '" class="directions_inputs" onkeyup="arrange_directions(' + directions_index + ')" ></textarea>\
+                    </p>\
+                </div>\
+                    </div >';
+        $("#directions").append(mark);
+    }
+}
 
 function arrange_ingrediants(init) {
     console.log(init + ingredient_index)
@@ -195,6 +196,7 @@ function close_account_floaty() {
 }
 
 function show_new_recipe_form() {
+    console.log("showing new recipe form");
     localStorage["NewRecipeWindow"] = true;
     $(".new_recipe_container").attr("hidden", false);
 }

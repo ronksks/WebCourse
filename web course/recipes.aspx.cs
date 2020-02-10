@@ -18,7 +18,6 @@ namespace web_course
         //txtRecipeName
         protected void Page_Load(object sender, EventArgs e)
         {
-            //ibtnNewRow.Style = "float:right";
             if (loggedIn())
             {
                 ltLoginStatus.Text = String.Empty;
@@ -33,7 +32,7 @@ namespace web_course
                 setGuestFloaty();
             }
 
-            using (var db = new KitchenAppDBEntities1())
+            using (var db = new KitchenAppDBEntities())
             {
                 myRecipes.DataSource = db.Recipes.ToList();
                 myRecipes.DataBind();
@@ -62,7 +61,7 @@ namespace web_course
 
         protected void ibtnSearch_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         protected void signOut_Click(object sender, EventArgs e)
@@ -77,7 +76,7 @@ namespace web_course
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            
+
             if (Session["uid"] != null)
             {
                 int owner_id = (int)Session["uid"];
@@ -85,7 +84,7 @@ namespace web_course
                 string[] strs_ings = txtIngrediants.Text.Split('|');
                 ArrayList ingrediants = new ArrayList();
                 Dictionary<Ingredient, string> ings_qty_Map = new Dictionary<Ingredient, string>();
-                using (var db = new KitchenAppDBEntities1())
+                using (var db = new KitchenAppDBEntities())
                 {
                     foreach (string ing in strs_ings)
                     {
@@ -99,7 +98,8 @@ namespace web_course
                         ingrediants.Add(tmp);
                         //FIXME: bug here still creating new ingredients even when exist
                         var first = db.Ingredients.Where(i => i.name.Trim() == tmp.name.Trim()).FirstOrDefault();
-                        if (first == null) {
+                        if (first == null)
+                        {
                             db.Ingredients.Add(tmp);
                         }
                     }
@@ -107,7 +107,7 @@ namespace web_course
                 }
 
 
-                //adding recipe to database
+                //creating new recipe object
 
                 Recipe rcp = new Recipe();
                 rcp.title = txtRecipeName.Text;
@@ -124,21 +124,22 @@ namespace web_course
                 {
                     relativePath = "/images/recipes/" + fileuploadRecipeThumb1.FileName;
                     string ServerMapPath = Server.MapPath("~//images//recipes//" + fileuploadRecipeThumb1.FileName);
-                    fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);  
+                    fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);
                 }
                 rcp.img_path = relativePath;
 
-                using (var db = new KitchenAppDBEntities1())
+                using (var db = new KitchenAppDBEntities())
                 {
+                    //adding recipe to database
                     db.Recipes.Add(rcp);
                     db.SaveChanges();
-                    
+
                     foreach (Ingredient i in ingrediants)
                     {
                         IngredientsInRecipe ingInRec = new IngredientsInRecipe();
                         ingInRec.ingredient_id = i.id;
                         ingInRec.recipe_id = rcp.id;
-                        ingInRec.qty = ings_qty_Map[i];
+                        ingInRec.qty = ings_qty_Map[i].Substring(0, Math.Min(63, ings_qty_Map[i].Length));    //making sure string does not exceed 64 characters 
                         ingInRec.Recipe = rcp;
                         ingInRec.Ingredient = i;
                         db.IngredientsInRecipes.Add(ingInRec);
@@ -147,12 +148,12 @@ namespace web_course
                 }
 
 
-            } 
+            }
             else
             {
 
             }
-            LocalDataStoreSlot[""]
+            //LocalDataStoreSlot[""];
             Response.Redirect("recipes.aspx");
 
 
@@ -164,7 +165,145 @@ namespace web_course
             ScriptManager.RegisterStartupScript(this, typeof(Page), "UpdateMsg", "$(document).ready(function(){EnableControls(); alert('Overrides successfully Updated.'); DisableControls();});", true);
         }
 
-    }
+        protected String RateToImagePath(Object rateVal, int index)
+        {
 
+            int rate = (int)rateVal;
+            if (rate < index)
+            {
+                return "/images/emptyStar.png";
+            }
+            else
+            {
+                return "/images/fullStar.png";
+            }
+
+
+        }
+
+        protected String RecipeIsVegan(Object recipe_idVal)
+        {
+            int recipe_id = (int)recipe_idVal;
+            using (var db = new KitchenAppDBEntities())
+            {
+                var recipe = db.Recipes.Where(i => i.id == recipe_id).FirstOrDefault();
+                if (recipe == null)
+                {
+                    //wierd should have never gotten here...
+                    return "SOMTHING WENT WRONG";
+                    //return "/images/icons8-vegan-food-24-toggle_off.png";
+                }
+                else
+                {
+                    if (recipe.isVegan())
+                    {
+                        return "/images/icons8-vegan-food-24-toggle_on.png";
+                    }
+                    else
+                    {
+                        return "/images/icons8-vegan-food-24-toggle_off.png";
+                    }
+                }
+            }
+        }
+
+        protected String RecipeContainsDairy(Object recipe_idVal)
+        {
+            int recipe_id = (int)recipe_idVal;
+            using (var db = new KitchenAppDBEntities())
+            {
+                var recipe = db.Recipes.Where(i => i.id == recipe_id).FirstOrDefault();
+                if (recipe == null)
+                {
+                    //wierd should have never gotten here...
+                    return "SOMTHING WENT WRONG";
+                    //return "/images/icons8-vegan-food-24-toggle_off.png";
+                }
+                else
+                {
+                    if (recipe.containsDairy())
+                    {
+                        return "/images/icons8-cheese-24-toggle_on.png";
+                    }
+                    else
+                    {
+                        return "/images/icons8-cheese-24-toggle_off.png";
+                    }
+                }
+            }
+        }
+
+        protected String RecipeContainsMeat(Object recipe_idVal)
+        {
+            int recipe_id = (int)recipe_idVal;
+            using (var db = new KitchenAppDBEntities())
+            {
+                var recipe = db.Recipes.Where(i => i.id == recipe_id).FirstOrDefault();
+                if (recipe == null)
+                {
+                    //wierd should have never gotten here...
+                    return "SOMTHING WENT WRONG";
+                    //return "/images/icons8-vegan-food-24-toggle_off.png";
+                }
+                else
+                {
+                    if (recipe.containsMeat())
+                    {
+                        return "/images/icons8-thanksgiving-24-toggle_on.png";
+                    }
+                    else
+                    {
+                        return "/images/icons8-thanksgiving-24-toggle_off.png";
+                    }
+                }
+            }
+        }
+
+        protected String RecipeContainsFish(Object recipe_idVal)
+        {
+            int recipe_id = (int)recipe_idVal;
+            using (var db = new KitchenAppDBEntities())
+            {
+                var recipe = db.Recipes.Where(i => i.id == recipe_id).FirstOrDefault();
+                if (recipe == null)
+                {
+                    //wierd should have never gotten here...
+                    return "SOMTHING WENT WRONG";
+                    //return "/images/icons8-vegan-food-24-toggle_off.png";
+                }
+                else
+                {
+                    if (recipe.containsFish())
+                    {
+                        return "/images/icons8-fish-food-24-toggle_on.png";
+                    }
+                    else
+                    {
+                        return "/images/icons8-fish-food-24-toggle_off.png";
+                    }
+                }
+            }
+        }
+
+        protected String getOwnerName(Object user_idVal)
+        {
+            int user_id = (int)user_idVal;
+            using (var db = new KitchenAppDBEntities())
+            {
+                var user = db.Users.Where(i => i.id == user_id).FirstOrDefault();
+                if (user == null)
+                {
+                    //wierd should have never gotten here...
+                    return "SOMTHING WENT WRONG";
+                    //return "/images/icons8-vegan-food-24-toggle_off.png";
+                }
+                else
+                {
+                    return user.name.Split(' ')[0];
+                }
+            }
+        }
+
+    }
 }
 

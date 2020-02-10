@@ -21,7 +21,7 @@ namespace web_course
         {
             if(!String.IsNullOrEmpty(txtEmail.Text))
             {
-                using (var db = new KitchenAppDBEntities1())
+                using (var db = new KitchenAppDBEntities())
                 {
                     if (IsValidEmail(txtEmail.Text))
                     {
@@ -82,7 +82,7 @@ namespace web_course
                     return;
                 }
 
-                using (var db = new KitchenAppDBEntities1())
+                using (var db = new KitchenAppDBEntities())
                 {
                     var p = db.Users.Where(i => i.email == txtEmailSignup.Text).FirstOrDefault();
                     if (p != null)
@@ -131,9 +131,11 @@ namespace web_course
             
         }
 
-        
-
+        //  ######################################################################################################################################################################
+        //
         //check if email address is valid on server side. taken from https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
+        //
+        //  ######################################################################################################################################################################
         public static bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))

@@ -11,9 +11,13 @@ namespace web_course
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Ingredient
     {
+        const int VEGAN = 1;
+        const int DAIRY = 2;
+        const int MEAT = 4;
+        const int FISH = 8;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Ingredient()
         {
@@ -28,5 +32,26 @@ namespace web_course
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngredientsInRecipe> IngredientsInRecipes { get; set; }
+
+        internal bool containsMeat()
+        {
+            return (source & MEAT) != 0;
+        }
+
+        internal bool containsDairy()
+        {
+            return (source & DAIRY) != 0;
+        }
+
+        internal bool containsFish()
+        {
+            return (source & FISH) != 0;
+        }
+
+        internal bool isVegan()
+        {
+            return (!containsDairy() && !containsFish() && !containsMeat());
+        }
+
     }
 }

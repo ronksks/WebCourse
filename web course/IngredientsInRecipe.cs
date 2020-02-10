@@ -14,8 +14,8 @@ namespace web_course
     
     public partial class IngredientsInRecipe
     {
-        public int ingredient_id { get; set; }
         public int recipe_id { get; set; }
+        public int ingredient_id { get; set; }
         public string qty { get; set; }
     
         public virtual Ingredient Ingredient { get; set; }

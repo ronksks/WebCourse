@@ -13,10 +13,10 @@ namespace web_course
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class KitchenAppDBEntities1 : DbContext
+    public partial class KitchenAppDBEntities : DbContext
     {
-        public KitchenAppDBEntities1()
-            : base("name=KitchenAppDBEntities1")
+        public KitchenAppDBEntities()
+            : base("name=KitchenAppDBEntities")
         {
         }
     
@@ -26,8 +26,8 @@ namespace web_course
         }
     
         public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<IngredientsInRecipe> IngredientsInRecipes { get; set; }
         public virtual DbSet<Recipe> Recipes { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<IngredientsInRecipe> IngredientsInRecipes { get; set; }
     }
 }

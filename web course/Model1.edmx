@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KitchenAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="KitchenAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ingredients">
           <Key>
             <PropertyRef Name="id" />
@@ -15,14 +15,14 @@
           <Property Name="img_path" Type="nchar" MaxLength="216" />
           <Property Name="source" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="IngredientsInRecipes">
+        <EntityType Name="IngredientsInRecipe">
           <Key>
-            <PropertyRef Name="ingredient_id" />
             <PropertyRef Name="recipe_id" />
+            <PropertyRef Name="ingredient_id" />
           </Key>
-          <Property Name="ingredient_id" Type="int" Nullable="false" />
           <Property Name="recipe_id" Type="int" Nullable="false" />
-          <Property Name="qty" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ingredient_id" Type="int" Nullable="false" />
+          <Property Name="qty" Type="nchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <EntityType Name="Recipes">
           <Key>
@@ -48,26 +48,26 @@
           <Property Name="isadmin" Type="int" />
           <Property Name="gender" Type="int" />
         </EntityType>
-        <Association Name="FK_IngredientsInRecipes_Ingredients">
+        <Association Name="FK_IngredientsInRecipe_Ingredients">
           <End Role="Ingredients" Type="Self.Ingredients" Multiplicity="1" />
-          <End Role="IngredientsInRecipes" Type="Self.IngredientsInRecipes" Multiplicity="*" />
+          <End Role="IngredientsInRecipe" Type="Self.IngredientsInRecipe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ingredients">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="IngredientsInRecipes">
+            <Dependent Role="IngredientsInRecipe">
               <PropertyRef Name="ingredient_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_IngredientsInRecipes_Recipes">
+        <Association Name="FK_IngredientsInRecipe_Recipes">
           <End Role="Recipes" Type="Self.Recipes" Multiplicity="1" />
-          <End Role="IngredientsInRecipes" Type="Self.IngredientsInRecipes" Multiplicity="*" />
+          <End Role="IngredientsInRecipe" Type="Self.IngredientsInRecipe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Recipes">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="IngredientsInRecipes">
+            <Dependent Role="IngredientsInRecipe">
               <PropertyRef Name="recipe_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -86,23 +86,24 @@
         </Association>
         <EntityContainer Name="KitchenAppDBModelStoreContainer">
           <EntitySet Name="Ingredients" EntityType="Self.Ingredients" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IngredientsInRecipes" EntityType="Self.IngredientsInRecipes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientsInRecipe" EntityType="Self.IngredientsInRecipe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipes" EntityType="Self.Recipes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_IngredientsInRecipes_Ingredients" Association="Self.FK_IngredientsInRecipes_Ingredients">
+          <AssociationSet Name="FK_IngredientsInRecipe_Ingredients" Association="Self.FK_IngredientsInRecipe_Ingredients">
             <End Role="Ingredients" EntitySet="Ingredients" />
-            <End Role="IngredientsInRecipes" EntitySet="IngredientsInRecipes" />
+            <End Role="IngredientsInRecipe" EntitySet="IngredientsInRecipe" />
           </AssociationSet>
-          <AssociationSet Name="FK_IngredientsInRecipes_Recipes" Association="Self.FK_IngredientsInRecipes_Recipes">
+          <AssociationSet Name="FK_IngredientsInRecipe_Recipes" Association="Self.FK_IngredientsInRecipe_Recipes">
             <End Role="Recipes" EntitySet="Recipes" />
-            <End Role="IngredientsInRecipes" EntitySet="IngredientsInRecipes" />
+            <End Role="IngredientsInRecipe" EntitySet="IngredientsInRecipe" />
           </AssociationSet>
           <AssociationSet Name="FK_Recipes_Users" Association="Self.FK_Recipes_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Recipes" EntitySet="Recipes" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KitchenAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -115,7 +116,18 @@
           <Property Name="unit_type" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="img_path" Type="String" MaxLength="216" FixedLength="true" Unicode="true" />
           <Property Name="source" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="IngredientsInRecipes" Relationship="Self.FK_IngredientsInRecipes_Ingredients" FromRole="Ingredients" ToRole="IngredientsInRecipes" />
+          <NavigationProperty Name="IngredientsInRecipes" Relationship="Self.FK_IngredientsInRecipe_Ingredients" FromRole="Ingredients" ToRole="IngredientsInRecipe" />
+        </EntityType>
+        <EntityType Name="IngredientsInRecipe">
+          <Key>
+            <PropertyRef Name="recipe_id" />
+            <PropertyRef Name="ingredient_id" />
+          </Key>
+          <Property Name="recipe_id" Type="Int32" Nullable="false" />
+          <Property Name="ingredient_id" Type="Int32" Nullable="false" />
+          <Property Name="qty" Type="String" MaxLength="64" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_IngredientsInRecipe_Ingredients" FromRole="IngredientsInRecipe" ToRole="Ingredients" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_IngredientsInRecipe_Recipes" FromRole="IngredientsInRecipe" ToRole="Recipes" />
         </EntityType>
         <EntityType Name="Recipe">
           <Key>
@@ -128,7 +140,7 @@
           <Property Name="description" Type="String" MaxLength="1024" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="owner" Type="Int32" Nullable="false" />
           <Property Name="time" Type="Int32" />
-          <NavigationProperty Name="IngredientsInRecipes" Relationship="Self.FK_IngredientsInRecipes_Recipes" FromRole="Recipes" ToRole="IngredientsInRecipes" />
+          <NavigationProperty Name="IngredientsInRecipes" Relationship="Self.FK_IngredientsInRecipe_Recipes" FromRole="Recipes" ToRole="IngredientsInRecipe" />
           <NavigationProperty Name="User" Relationship="Self.FK_Recipes_Users" FromRole="Recipes" ToRole="Users" />
         </EntityType>
         <EntityType Name="User">
@@ -144,37 +156,26 @@
           <Property Name="gender" Type="Int32" />
           <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipes_Users" FromRole="Users" ToRole="Recipes" />
         </EntityType>
-        <EntityType Name="IngredientsInRecipe">
-          <Key>
-            <PropertyRef Name="ingredient_id" />
-            <PropertyRef Name="recipe_id" />
-          </Key>
-          <Property Name="ingredient_id" Type="Int32" Nullable="false" />
-          <Property Name="recipe_id" Type="Int32" Nullable="false" />
-          <Property Name="qty" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Ingredient" Relationship="Self.FK_IngredientsInRecipes_Ingredients" FromRole="IngredientsInRecipes" ToRole="Ingredients" />
-          <NavigationProperty Name="Recipe" Relationship="Self.FK_IngredientsInRecipes_Recipes" FromRole="IngredientsInRecipes" ToRole="Recipes" />
-        </EntityType>
-        <Association Name="FK_IngredientsInRecipes_Ingredients">
+        <Association Name="FK_IngredientsInRecipe_Ingredients">
           <End Role="Ingredients" Type="Self.Ingredient" Multiplicity="1" />
-          <End Role="IngredientsInRecipes" Type="Self.IngredientsInRecipe" Multiplicity="*" />
+          <End Role="IngredientsInRecipe" Type="Self.IngredientsInRecipe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ingredients">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="IngredientsInRecipes">
+            <Dependent Role="IngredientsInRecipe">
               <PropertyRef Name="ingredient_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_IngredientsInRecipes_Recipes">
+        <Association Name="FK_IngredientsInRecipe_Recipes">
           <End Role="Recipes" Type="Self.Recipe" Multiplicity="1" />
-          <End Role="IngredientsInRecipes" Type="Self.IngredientsInRecipe" Multiplicity="*" />
+          <End Role="IngredientsInRecipe" Type="Self.IngredientsInRecipe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Recipes">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="IngredientsInRecipes">
+            <Dependent Role="IngredientsInRecipe">
               <PropertyRef Name="recipe_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -191,18 +192,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="KitchenAppDBEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="KitchenAppDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
+          <EntitySet Name="IngredientsInRecipes" EntityType="Self.IngredientsInRecipe" />
           <EntitySet Name="Recipes" EntityType="Self.Recipe" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="IngredientsInRecipes" EntityType="Self.IngredientsInRecipe" />
-          <AssociationSet Name="FK_IngredientsInRecipes_Ingredients" Association="Self.FK_IngredientsInRecipes_Ingredients">
+          <AssociationSet Name="FK_IngredientsInRecipe_Ingredients" Association="Self.FK_IngredientsInRecipe_Ingredients">
             <End Role="Ingredients" EntitySet="Ingredients" />
-            <End Role="IngredientsInRecipes" EntitySet="IngredientsInRecipes" />
+            <End Role="IngredientsInRecipe" EntitySet="IngredientsInRecipes" />
           </AssociationSet>
-          <AssociationSet Name="FK_IngredientsInRecipes_Recipes" Association="Self.FK_IngredientsInRecipes_Recipes">
+          <AssociationSet Name="FK_IngredientsInRecipe_Recipes" Association="Self.FK_IngredientsInRecipe_Recipes">
             <End Role="Recipes" EntitySet="Recipes" />
-            <End Role="IngredientsInRecipes" EntitySet="IngredientsInRecipes" />
+            <End Role="IngredientsInRecipe" EntitySet="IngredientsInRecipes" />
           </AssociationSet>
           <AssociationSet Name="FK_Recipes_Users" Association="Self.FK_Recipes_Users">
             <End Role="Users" EntitySet="Users" />
@@ -214,7 +215,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="KitchenAppDBModelStoreContainer" CdmEntityContainer="KitchenAppDBEntities1">
+        <EntityContainerMapping StorageEntityContainer="KitchenAppDBModelStoreContainer" CdmEntityContainer="KitchenAppDBEntities">
           <EntitySetMapping Name="Ingredients">
             <EntityTypeMapping TypeName="KitchenAppDBModel.Ingredient">
               <MappingFragment StoreEntitySet="Ingredients">
@@ -223,6 +224,15 @@
                 <ScalarProperty Name="unit_type" ColumnName="unit_type" />
                 <ScalarProperty Name="img_path" ColumnName="img_path" />
                 <ScalarProperty Name="source" ColumnName="source" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientsInRecipes">
+            <EntityTypeMapping TypeName="KitchenAppDBModel.IngredientsInRecipe">
+              <MappingFragment StoreEntitySet="IngredientsInRecipe">
+                <ScalarProperty Name="recipe_id" ColumnName="recipe_id" />
+                <ScalarProperty Name="ingredient_id" ColumnName="ingredient_id" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -249,15 +259,6 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="isadmin" ColumnName="isadmin" />
                 <ScalarProperty Name="gender" ColumnName="gender" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IngredientsInRecipes">
-            <EntityTypeMapping TypeName="KitchenAppDBModel.IngredientsInRecipe">
-              <MappingFragment StoreEntitySet="IngredientsInRecipes">
-                <ScalarProperty Name="ingredient_id" ColumnName="ingredient_id" />
-                <ScalarProperty Name="recipe_id" ColumnName="recipe_id" />
-                <ScalarProperty Name="qty" ColumnName="qty" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
