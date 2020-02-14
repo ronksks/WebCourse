@@ -65,13 +65,20 @@ input#txtIngrediants {
     border-radius: 8px;
 }
 
+.category-k {
+    display: inline-flex !important;
+    margin-right: 3%;
+    max-width: 20rem;
+}
+
 .login_container {
     margin: 10% 40% 0 40%;
     min-width: 270px;
 }
 
 .recipe {
-    max-width: 20rem;
+    width: 20rem;
+    height: 25rem;
     float: left;
     margin: 4px;
 }

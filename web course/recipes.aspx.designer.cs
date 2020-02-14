@@ -51,6 +51,69 @@ namespace web_course
         protected global::System.Web.UI.WebControls.Repeater myRecipes;
 
         /// <summary>
+        /// pnlCategoriesPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCategoriesPage;
+
+        /// <summary>
+        /// pnlCategoryView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCategoryView;
+
+        /// <summary>
+        /// ltrCategoryName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrCategoryName;
+
+        /// <summary>
+        /// btnBackToCategorySelectionView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton btnBackToCategorySelectionView;
+
+        /// <summary>
+        /// rptCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptCategory;
+
+        /// <summary>
+        /// pnlNoRecipes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlNoRecipes;
+
+        /// <summary>
+        /// ltrNoRecipes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrNoRecipes;
+
+        /// <summary>
         /// ltLoginStatus control.
         /// </summary>
         /// <remarks>

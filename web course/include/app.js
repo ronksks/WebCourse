@@ -45,6 +45,16 @@ $(document).ready(function () {
     console.log("Document ready");
     arrange_ingrediants("init");
     change_content_to(localStorage["CurrentViewName"]);
+    $(".rate-stars").hover(function () {
+        id = $(this).attr("id").split('-')[1];
+        for (i = 1; i <= 5; i++) {
+            if (i <= id) {
+                $("#star-" + i).attr("src", "/images/fullStar.png");
+            } else {
+                $("#star-" + i).attr("src", "/images/emptyStar.png");
+            }
+        }
+    })
     //if (localStorage["NewRecipeWindow"] == "true") {
     //    show_new_recipe_form()
     //} else {
@@ -199,6 +209,10 @@ function show_new_recipe_form() {
     console.log("showing new recipe form");
     localStorage["NewRecipeWindow"] = true;
     $(".new_recipe_container").attr("hidden", false);
+}
+
+function category_click(catName) {
+    __doPostBack('category_panel', catName);
 }
 
 function change_content_to(page_name) {

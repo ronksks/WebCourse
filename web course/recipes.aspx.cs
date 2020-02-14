@@ -37,6 +37,23 @@ namespace web_course
                 myRecipes.DataSource = db.Recipes.ToList();
                 myRecipes.DataBind();
             }
+
+            var controlName = Request.Params.Get("__EVENTTARGET");
+            var argument = Request.Params.Get("__EVENTARGUMENT");
+            if (controlName == "category_panel")
+            {
+                pnlCategory_Click(argument);
+            }
+            else
+            {
+                ShowCategories_Click(null,null);
+            }
+        }
+
+        protected void Page_PreRender()
+        {
+            //This function returns a string calling __doPostBack(); but also forces the page to output the __doPostBack() function definition for later use in the app.js file
+            this.Page.ClientScript.GetPostBackEventReference(pnlCategoriesPage, string.Empty);
         }
         private void setGuestFloaty()
         {
@@ -159,6 +176,50 @@ namespace web_course
 
         }
 
+        protected void pnlCategory_Click(String category)
+        {
+            //change category view
+            pnlCategoriesPage.Visible = false;
+            pnlCategoryView.Visible = true;
+            pnlNoRecipes.Visible = false;
+            ltrCategoryName.Text = category.First().ToString().ToUpper() + category.Substring(1) + " Recipes";
+            using (var db = new KitchenAppDBEntities())
+            {
+                List<Recipe> catRecipes = new List<Recipe>();
+                foreach (Recipe r in db.Recipes.ToList())
+                {
+                    switch (category)
+                    {
+                        case "vegan":
+                            if (r.isVegan()) catRecipes.Add(r);
+                            break;
+                        case "meat":
+                            if (r.containsMeat()) catRecipes.Add(r);
+                            break;
+                        case "dairy":
+                            if (r.containsDairy()) catRecipes.Add(r);
+                            break;
+                        case "fish":
+                            if (r.containsFish()) catRecipes.Add(r);
+                            break;
+                    }
+                }
+                if (catRecipes.Count == 0)
+                {
+                    pnlNoRecipes.Visible = true;
+                    ltrNoRecipes.Text = "No " + category + " Recipes Found. Maybe constider adding one?";
+                }
+                rptCategory.DataSource = catRecipes;
+                rptCategory.DataBind();
+            }
+        }
+
+        protected void ShowCategories_Click(object sender, EventArgs e)
+        {
+            pnlCategoriesPage.Visible = true;
+            pnlCategoryView.Visible = false;
+            pnlNoRecipes.Visible = false;
+        }
         protected void txtDirections_TextChanged(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("SomeText");
