@@ -22,13 +22,6 @@ class Recipe {
         this.user = user;
     }
 
-    //isVegetarian() {
-    //    for (i = 0; i < ingredients.length; i++) {
-    //        if (!ingredients[i].isVegetarian()) return false;
-    //    }
-    //    return true;
-    //}
-
     containsDairy() {
         for (i = 0; i < this.ingredients.length; i++) {
             if (this.ingredients[i].isDairy()) return true;

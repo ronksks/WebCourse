@@ -41,10 +41,37 @@ FISH = 8;
     //}
 //});
 
+
+var app = angular.module('app', []);
+app.controller('ctrl', function ($scope, $http) {
+    angular.element(document).ready(function () {
+        var url = 'webservice.asmx/helloworld';
+        $http.get(url, null).then(
+            function (res) {
+                //var s = res.documentElement.innerHTML;
+                console.log("s:");
+                //console.log(s);
+                console.log("res:");
+                console.log(res);
+                var x2j = new X2JS();
+                var d = x2j.xml_str2json(res.data).string
+                console.log("d:");
+                console.log(d.__text);
+                //$scope.data = JSON.parse(d);
+                
+            },
+            function (er) {
+                console.log("error:")
+                console.log(er);
+            });
+    })
+});
+
+
 $(document).ready(function () {
     console.log("Document ready");
     arrange_ingrediants("init");
-    change_content_to(localStorage["CurrentViewName"]);
+    
     $(".rate-stars").hover(function () {
         id = $(this).attr("id").split('-')[1];
         for (i = 1; i <= 5; i++) {
@@ -54,7 +81,20 @@ $(document).ready(function () {
                 $("#star-" + i).attr("src", "/images/emptyStar.png");
             }
         }
-    })
+        organize_rate_for_server(id);
+    });
+    search_term = $("#txtSearch").val();
+    console.log(search_term);
+    if (search_term != "") {
+        change_content_to("Search");
+    } else {
+        if (localStorage["CurrentViewName"] != "Search") {
+            change_content_to(localStorage["CurrentViewName"]);
+        } else {
+            change_content_to("Home");
+        }
+    }
+
     //if (localStorage["NewRecipeWindow"] == "true") {
     //    show_new_recipe_form()
     //} else {
@@ -184,6 +224,12 @@ function organize_ingrediants_for_server() {
     }
 }
 
+function organize_rate_for_server(rate) {
+    $("#txtRate").val(rate);
+}
+function edit_recipe(id, title, rate, description, owner_id, time, ingredients) {
+    console.log(id, title, rate, description.replace("|||",","), owner_id, time, ingredients);
+}
 function toggle_ingrediant_type(type, index) {
     img_id = "#" + type + "_" + index;
     console.log(img_id);
@@ -222,30 +268,31 @@ function change_content_to(page_name) {
             $(".recipes_container").attr("hidden", false);
             $(".home").attr("hidden", true);
             $(".categories_page").attr("hidden", true);
+            $(".search_results").attr("hidden", true);
             break;
         case "Categories":
             localStorage["CurrentViewName"] = "Categories";
             $(".recipes_container").attr("hidden", true);
             $(".home").attr("hidden", true);
             $(".categories_page").attr("hidden", false);
+            $(".search_results").attr("hidden", true);
             break;
         case "Home":
             localStorage["CurrentViewName"] = "Home";
             $(".recipes_container").attr("hidden", true);
             $(".home").attr("hidden", false);
             $(".categories_page").attr("hidden", true);
-            break;
-        case "Favorites":
-            localStorage["CurrentViewName"] = "Favorites";
+            $(".search_results").attr("hidden", true);
             break;
         case "Account":
             $(".floating-account-info").attr("hidden", false);
             break;
         case "Search":
             localStorage["CurrentViewName"] = "Search";
-            break;
-        case "AdvancedSearch":
-            localStorage["CurrentViewName"] = "AdvancedSearch";
+            $(".search_results").attr("hidden", false);
+            $(".recipes_container").attr("hidden", true);
+            $(".home").attr("hidden", true);
+            $(".categories_page").attr("hidden", true);
             break;
         default:
             console.log("default in swtich");

@@ -78,7 +78,12 @@ namespace web_course
 
         protected void ibtnSearch_Click(object sender, EventArgs e)
         {
-
+            ltSearchTerm.Text = txtSearch.Text;
+            using (var db = new KitchenAppDBEntities())
+            {
+                rptSearchResults.DataSource = db.Recipes.Where(i => i.title.Contains(txtSearch.Text)).ToList();
+                rptSearchResults.DataBind();
+            }
         }
 
         protected void signOut_Click(object sender, EventArgs e)
@@ -128,9 +133,30 @@ namespace web_course
 
                 Recipe rcp = new Recipe();
                 rcp.title = txtRecipeName.Text;
+                String rate = txtRate.Text;
+                if (rate.Length != 0)
+                {
+                    try { 
+                        rcp.rate = Convert.ToInt32(rate); 
+                    } 
+                    catch
+                    {
+
+                    }
+                }
+                String time = txtTime.Text;
+                if (time.Length != 0)
+                {
+                    try
+                    {
+                        rcp.time = Convert.ToInt32(time);
+                    }
+                    catch
+                    {
+
+                    }
+                }
                 rcp.owner = owner_id;
-                rcp.rate = 0;
-                rcp.time = Int16.Parse(txtTime.Text);
                 rcp.description = txtDirections0.Text;
 
                 //upload image to image folder
@@ -139,9 +165,11 @@ namespace web_course
                 string relativePath = "";
                 using (FileUpload fileuploadRecipeThumb1 = fileuploadRecipeThumb)
                 {
-                    relativePath = "/images/recipes/" + fileuploadRecipeThumb1.FileName;
-                    string ServerMapPath = Server.MapPath("~//images//recipes//" + fileuploadRecipeThumb1.FileName);
-                    fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);
+                    if (fileuploadRecipeThumb1.FileName != "") {
+                        relativePath = "/images/recipes/" + fileuploadRecipeThumb1.FileName;
+                        string ServerMapPath = Server.MapPath("~//images//recipes//" + fileuploadRecipeThumb1.FileName);
+                        fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);
+                    }
                 }
                 rcp.img_path = relativePath;
 
@@ -220,10 +248,36 @@ namespace web_course
             pnlCategoryView.Visible = false;
             pnlNoRecipes.Visible = false;
         }
+
+        protected void editImage_Click(object sender, EventArgs e)
+        {
+            pnlCategoriesPage.Visible = true;
+            pnlCategoryView.Visible = false;
+            pnlNoRecipes.Visible = false;
+        }
         protected void txtDirections_TextChanged(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("SomeText");
             ScriptManager.RegisterStartupScript(this, typeof(Page), "UpdateMsg", "$(document).ready(function(){EnableControls(); alert('Overrides successfully Updated.'); DisableControls();});", true);
+        }
+
+        protected String EditOnOwnership(Object user_idVal, Object recipe_idVal)
+        {
+            int user_id = (int)user_idVal;
+            int recipe_id = (int)recipe_idVal;
+
+            using (var db = new KitchenAppDBEntities())
+            {
+                var recipe = db.Recipes.Where(i => i.id == recipe_id && i.owner == user_id).FirstOrDefault();
+                if (recipe == null)
+                {
+                    return "hidden";
+                }
+                else
+                {
+                    return "";
+                }
+            }
         }
 
         protected String RateToImagePath(Object rateVal, int index)

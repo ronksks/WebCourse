@@ -79,5 +79,17 @@ namespace web_course
             }
             return false;
         }
+        public override string ToString()
+        {
+            List<String> l = new List<string>() { Convert.ToString(id), "'" + title.Trim() + "'", Convert.ToString(rate), "'" + description.Trim().Replace(",", "|||").Replace(System.Environment.NewLine, "//n")+"'", Convert.ToString(owner), Convert.ToString(time) };
+            List<String> ings = new List<String>();
+            foreach (IngredientsInRecipe i in IngredientsInRecipes)
+            {
+                ings.Add(i.ToString());
+            }
+            String all_ings = "'"+ String.Join("--- ", ings.ToArray())+"'";
+            l.Add(all_ings);
+            return String.Join(", ", l.ToArray());
+        }
     }
 }

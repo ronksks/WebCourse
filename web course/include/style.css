@@ -39,13 +39,9 @@
 
 .page_container {
     width: 100%;
+    overflow:auto;
 }
-.recipes_container {
-    overflow: auto;
-}
-.main_container {
-    overflow: auto;
-}
+
 .new_recipe_container {
     width: 85%;
     overflow: auto;
@@ -55,9 +51,16 @@
     left: 6%;
     max-height: 83%;
     border: 2px dashed black;
+    z-index:10;
+}
+.edit_image {
+    float:right;
 }
 
 input#txtIngrediants {
+    display: none;
+}
+input#txtRate {
     display: none;
 }
 

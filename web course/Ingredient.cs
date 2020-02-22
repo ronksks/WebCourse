@@ -53,5 +53,10 @@ namespace web_course
             return (!containsDairy() && !containsFish() && !containsMeat());
         }
 
+        public override string ToString()
+        {
+            List<String> l = new List<string>() {name.Trim(), unit_type.Trim(), Convert.ToString(source) };
+            return String.Join("| ", l.ToArray());
+        }
     }
 }
