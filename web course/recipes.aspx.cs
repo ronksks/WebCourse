@@ -24,6 +24,7 @@ namespace web_course
                 hlLoginLink.Visible = false;
                 btnSignOut.Visible = true;
                 hlLoginLink2.Visible = false;
+                hlEditMyRecipes.Visible = true;
                 pnlNewRecipeForm.Visible = true;
                 ltUserName.Text = (String)Session["name"];
             }
@@ -61,6 +62,7 @@ namespace web_course
             ltLoginStatus.Text = "You are not logged in -> You cannot add new recipes to our database.";
             hlLoginLink.Visible = true;
             hlLoginLink2.Visible = true;
+            hlEditMyRecipes.Visible = false;
             btnSignOut.Visible = false;
             pnlNewRecipeForm.Visible = false;
         }
@@ -415,6 +417,38 @@ namespace web_course
                 else
                 {
                     return user.name.Split(' ')[0];
+                }
+            }
+        }
+
+        protected string enableEditRecipe(Object recipe_id)
+        {
+            int res_id = (int)recipe_id;
+            if (!loggedIn())
+            {
+                return "";
+            }
+            int loggedInUserId = (int)Session["uid"];
+            int isAdmin = (int)Session["isadmin"];
+            //getting here means we are logged in
+            if (isAdmin == 1)
+            {
+                return "<img src = 'images/icons8-edit-32.png' class='edit_image' onclick='editImage_Clicked(" + res_id + ")' />";
+            }
+            using (var db = new KitchenAppDBEntities())
+            {
+                var recipe = db.Recipes.Where(i => i.id == res_id && i.owner == loggedInUserId).FirstOrDefault();
+                if (recipe == null)
+                {
+                    
+                    return "";
+                    
+                }
+                else
+                {
+
+                    return "<img src = 'images/icons8-edit-32.png' class='edit_image' onclick='editImage_Clicked(" + res_id + ")' />";
+
                 }
             }
         }

@@ -94,6 +94,7 @@
     <Compile Include="Ingredient.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="IngredientDTO.cs" />
     <Compile Include="IngredientsInRecipe.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -127,6 +128,7 @@
     <Compile Include="Recipe.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="RecipeDTO.cs" />
     <Compile Include="recipes.aspx.cs">
       <DependentUpon>recipes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -138,6 +140,7 @@
     <Compile Include="User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserDTO.cs" />
     <Compile Include="WebService.asmx.cs">
       <DependentUpon>WebService.asmx</DependentUpon>
       <SubType>Component</SubType>

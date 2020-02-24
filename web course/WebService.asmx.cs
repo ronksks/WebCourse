@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace web_course
 {
@@ -23,14 +26,37 @@ namespace web_course
             return "Hello World";
         }
 
-        //[WebMethod]
-        //public List<Recipe> getStuff()
-        //{
-        //    using (var db = new KitchenAppDBEntities())
-        //    {
-        //        List<Recipe> l = db.Recipes.ToList();
-        //        return l;
-        //    }
-        //}
+        [WebMethod]
+        public string getStuff()
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(typeof(List<RecipeDTO>));
+            List<RecipeDTO> recipes = new List<RecipeDTO>();
+            string xml = "";
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    using (var db = new KitchenAppDBEntities())
+                    {
+                        foreach (Recipe r in db.Recipes.ToList())
+                        {
+                            List<IngredientDTO> ingrediants = new List<IngredientDTO>();
+                            UserDTO u = new UserDTO(r.User.id, r.User.bdate, r.User.email, r.User.name, r.User.isadmin, r.User.gender);
+                            foreach (IngredientsInRecipe ing in r.IngredientsInRecipes)
+                            {
+                                IngredientDTO cur_ing = new IngredientDTO(ing.Ingredient.id, ing.Ingredient.name, ing.Ingredient.unit_type, ing.Ingredient.img_path, ing.Ingredient.source);
+                                ingrediants.Add(cur_ing);
+                            }
+                            RecipeDTO cur_recipe = new RecipeDTO(r.id, r.title, r.img_path, r.rate, r.time, r.description, ingrediants, u);
+                            recipes.Add(cur_recipe);
+                        }
+                    }
+                    xsSubmit.Serialize(writer, recipes);
+                    xml = sww.ToString(); // Your XML
+                }
+            }
+            
+            return xml;
+        }
     }
 }

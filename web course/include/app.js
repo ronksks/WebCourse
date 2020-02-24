@@ -40,25 +40,18 @@ FISH = 8;
     //    return ret;
     //}
 //});
-
+all_recipes = []
+recipes_hash = {}
 
 var app = angular.module('app', []);
 app.controller('ctrl', function ($scope, $http) {
     angular.element(document).ready(function () {
-        var url = 'webservice.asmx/helloworld';
+        var url = 'webservice.asmx/getStuff';
         $http.get(url, null).then(
             function (res) {
-                //var s = res.documentElement.innerHTML;
-                console.log("s:");
-                //console.log(s);
-                console.log("res:");
-                console.log(res);
-                var x2j = new X2JS();
-                var d = x2j.xml_str2json(res.data).string
-                console.log("d:");
-                console.log(d.__text);
-                //$scope.data = JSON.parse(d);
-                
+                var x2js = new X2JS();
+                all_recipes = x2js.xml_str2json(x2js.xml_str2json(res.data).string.__text).ArrayOfRecipeDTO.RecipeDTO
+                hash_all_recepies()
             },
             function (er) {
                 console.log("error:")
@@ -101,6 +94,21 @@ $(document).ready(function () {
     //    close_new_recipe()
     //}
 });
+
+function hash_all_recepies() {
+    console.log(all_recipes);
+    all_recipes.forEach(element => recipes_hash[element.id] = element);
+}
+
+function editImage_Clicked(id) {
+    edit_recipe = recipes_hash[id];
+    console.log("about to edit recipe: " + edit_recipe.title);
+}
+
+
+function EditMyRecipes() {
+
+}
 
 function arrange_directions(i) {
     console.log(directions_index);
@@ -278,6 +286,9 @@ function change_content_to(page_name) {
             $(".search_results").attr("hidden", true);
             break;
         case "Home":
+        case "sign_in":
+        case "recover":
+        case "register":
             localStorage["CurrentViewName"] = "Home";
             $(".recipes_container").attr("hidden", true);
             $(".home").attr("hidden", false);
@@ -295,7 +306,7 @@ function change_content_to(page_name) {
             $(".categories_page").attr("hidden", true);
             break;
         default:
-            console.log("default in swtich");
+            alert("unhandled currentViewName" + localStorage["CurrentViewName"] );
     }
     return;
 }

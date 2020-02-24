@@ -11,7 +11,10 @@ namespace web_course
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.IO;
+    using System.Xml;
+    using System.Xml.Serialization;
+
     public partial class Recipe
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +24,7 @@ namespace web_course
         }
     
         public int id { get; set; }
-        public string title { get; set; }
+        public string title { get; set; }       
         public string img_path { get; set; }
         public Nullable<int> rate { get; set; }
         public string description { get; set; }
@@ -78,18 +81,6 @@ namespace web_course
                 }
             }
             return false;
-        }
-        public override string ToString()
-        {
-            List<String> l = new List<string>() { Convert.ToString(id), "'" + title.Trim() + "'", Convert.ToString(rate), "'" + description.Trim().Replace(",", "|||").Replace(System.Environment.NewLine, "//n")+"'", Convert.ToString(owner), Convert.ToString(time) };
-            List<String> ings = new List<String>();
-            foreach (IngredientsInRecipe i in IngredientsInRecipes)
-            {
-                ings.Add(i.ToString());
-            }
-            String all_ings = "'"+ String.Join("--- ", ings.ToArray())+"'";
-            l.Add(all_ings);
-            return String.Join(", ", l.ToArray());
         }
     }
 }

@@ -71,7 +71,7 @@
                         <div class="card border-primary mb-3 recipe">
                             <div class="card-header">
                                 <asp:Literal runat="server" Text='<%#((String)Eval("title")).Trim() %>'></asp:Literal>
-                                <asp:ImageButton runat="server" ID="imgbtnRecipeEdit" ImageUrl="images/icons8-edit-32.png" CssClass="edit_image" OnClientClick="editImage_Click" ></asp:ImageButton>
+                                <%# enableEditRecipe(Eval("id")) %>
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title">
@@ -352,6 +352,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <asp:HyperLink id="hlLoginLink2" NavigateUrl="login_reg.aspx" Text="Login/Register" runat="server"/> 
+                        <asp:HyperLink id="hlEditMyRecipes" NavigateUrl="#" Text="My Recipes" runat="server" onClick="EditMyRecipes()"/> 
                     </h4>
                     <asp:Button ID="btnSignOut" Text="Sign Out" runat="server" onclick="signOut_Click"/> 
                 </div>
@@ -361,6 +362,42 @@
             <div class="jumbotron page_container edit_my_recipes">
             
             </div>
+
+            <!-- Recipes view  -->
+            <%--<div class="jumbotron page_container recipes_container" hidden>
+                <h1 class="display-3">Recipes</h1>
+
+                <!--<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>-->
+                <hr class="my-4" />
+                <!-- TODO: add onclick functionality to show recipe on same page-->
+                <div ng-repeat="">
+                        <div class="card border-primary mb-3 recipe">
+                            <div class="card-header">
+                                <asp:Literal runat="server" Text='<%#((String)Eval("title")).Trim() %>'></asp:Literal>
+                                <img src = 'images/icons8-edit-32.png' class='edit_image' onclick='editImage_Clicked(" + res_id + ")' />
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    Time: <asp:Literal runat="server" Text='<%#Eval("time") %>' ></asp:Literal> Minutes
+                                </h4>
+                                <p class="card-text">
+                                    <asp:Image ID="img" runat="server" src='<%#Eval("img_path").ToString().Trim() %>' style="max-width: 17rem; max-height: 12rem"></asp:Image>
+                                </p>
+                                <img src="<%# RateToImagePath(Eval("rate"),1) %>"/>
+                                <img src="<%# RateToImagePath(Eval("rate"),2) %>"/>
+                                <img src="<%# RateToImagePath(Eval("rate"),3) %>"/>
+                                <img src="<%# RateToImagePath(Eval("rate"),4) %>"/>
+                                <img src="<%# RateToImagePath(Eval("rate"),5) %>"/>
+                                <br />
+                                <img src="<%# RecipeIsVegan(Eval("id")) %>" />
+                                <img src="<%# RecipeContainsDairy(Eval("id")) %>" />
+                                <img src="<%# RecipeContainsMeat(Eval("id")) %>" />
+                                <img src="<%# RecipeContainsFish(Eval("id")) %>" />
+                                <span style="font-size:11px;float:right;">by <%# getOwnerName(Eval("owner")) %></span>
+                            </div>
+                        </div>
+                </div>
+            </div>--%>
         </asp:Panel>
         <!-- Footer -->
         <div class="footer">
