@@ -10,53 +10,112 @@ DAIRY = 2;
 MEAT = 4;
 FISH = 8;
 
-
-//angular.module('kitchenApp', []).controller('mainController', function ($scope) {
-    //creating fake objects because no database is set up yet.
-    //var rec_path = "https://www.diabetes.org/sites/default/files/styles/crop_large/public/2019-06/Healthy%20Food%20Made%20Easy%20-min.jpg";
-    //var ing_path = "https://image.shutterstock.com/image-photo/red-apple-on-white-background-600w-158989157.jpg";
-    //var ing_1 = new Ingredient(0, "Banana", "Pc", ing_path, 0);
-    //var ing_2 = new Ingredient(1, "Apple", "Pc", ing_path, 0);
-    //var admin = new User(0, "Daniel", "Tibi", MALE, new Date(), [0, 1, 2]);
-    //var ings = [ing_1, ing_2];
-    //$scope.recipes = [];
-    //for (var i = 0; i < 25; i++) {
-    //    $scope.recipes[i] = new Recipe(i, "Mock Recipe Title " + i, 30 + i, rec_path, 3, ings, "take 2 eggs scrable and eat",admin);
-    //}
-    //$scope.fullStarPath = "https://img.icons8.com/emoji/24/000000/star-emoji.png";
-    //$scope.emptyStarPath = "https://img.icons8.com/color/24/000000/star--v1.png";
-    //console.log("done with assignment");
-    //console.log($scope.recipes);
-    //$scope.range = function (num) {
-    //    var ret = new Array(num);
-    //    for (i = 0; i < num; i++) ret[i] = i;
-    //    return ret;
-    //}
-    //$scope.rangeFromTo = function (from, to) {
-    //    var ret = new Array(to - from);
-    //    for (i = 0; i < to - from; i++) {
-    //        ret[i] = from + i;
-    //    }
-    //    return ret;
-    //}
-//});
-all_recipes = []
-recipes_hash = {}
+var all_recipes = []
+var recipes_hash = {}
+var loggedUser = "null";
 
 var app = angular.module('app', []);
 app.controller('ctrl', function ($scope, $http) {
     angular.element(document).ready(function () {
-        var url = 'webservice.asmx/getStuff';
+        if (typeof localStorage["recipe_view"] !== 'undefined') {
+            $scope.view = JSON.parse(localStorage["recipe_view"]);
+        } else {
+            $scope.view = new Recipe(999, "title", 99, "/images/icons8-circle-16.png", 3, [], "description", new User(999, "moshe", "no@email.com", "cohen", 0, null, null));
+            localStorage["recipe_view"] = JSON.stringify($scope.view);
+        }
+        
+        $scope.recipes = []
+        $scope.fullStarPath = "/images/fullStar.png";
+        $scope.emptyStarPath = "/images/emptyStar.png";
+        $scope.range = function (num) {
+            var ret = new Array(num);
+            for (i = 0; i < num; i++) ret[i] = i;
+            return ret;
+        }
+        $scope.rangeFromTo = function (from, to) {
+            var ret = new Array(to - from);
+            for (i = 0; i < to - from; i++) {
+                ret[i] = from + i;
+            }
+            return ret;
+        }
+
+        $scope.getChickenIcon = function (state) {
+            if (state) {
+                return "/images/icons8-thanksgiving-24-toggle_on.png";
+            } else {
+                return "/images/icons8-thanksgiving-24-toggle_off.png";
+            }
+        }
+        $scope.getVeganIcon = function (state) {
+            if (state) {
+                return "/images/icons8-vegan-food-24-toggle_on.png";
+            } else {
+                return "/images/icons8-vegan-food-24-toggle_off.png";
+            }
+        }
+        $scope.getDairyIcon = function (state) {
+            if (state) {
+                return "/images/icons8-cheese-24-toggle_on.png";
+            } else {
+                return "/images/icons8-cheese-24-toggle_off.png";
+            }
+        }
+        $scope.getFishIcon = function (state) {
+            if (state) {
+                return "/images/icons8-fish-food-24-toggle_on.png";
+            } else {
+                return "/images/icons8-fish-food-24-toggle_off.png";
+            }
+        }
+
+        var url = 'webservice.asmx/getMyStuff';
         $http.get(url, null).then(
             function (res) {
+                localStorage["user_id"] = $("#txtUserId").val();
                 var x2js = new X2JS();
                 all_recipes = x2js.xml_str2json(x2js.xml_str2json(res.data).string.__text).ArrayOfRecipeDTO.RecipeDTO
+                $scope.recipes = [];
+                $scope.allRecipes = [];
+                all_recipes.forEach(function (element, j) {
+                    recipe_ings = [];
+                    ing_arr = [];
+                    if (element.IngredientsInRecipes.IngredientDTO != 'undefined')
+                        ing_arr = element.IngredientsInRecipes.IngredientDTO;
+                    len = ing_arr == undefined ? 0 : ing_arr.length;
+                    for (i = 0; i < len; i++) {
+                        recipe_ings.push(new Ingredient(ing_arr[i].id, ing_arr[i].name, ing_arr[i].unit_type, ing_arr[i].qty, ing_arr[i].source));
+                    }
+                    rcp = new Recipe(element.id, element.title, element.time, element.img_path, element.rate, recipe_ings, element.description, element.owner);
+                    $scope.allRecipes.push(rcp);
+                    if (element.owner.id == localStorage["user_id"])
+                        $scope.recipes.push(rcp);
+                });
+                all_recipes = $scope.allRecipes;
+                console.log("scope recipes: " + $scope.allRecipes);
                 hash_all_recepies()
             },
             function (er) {
                 console.log("error:")
                 console.log(er);
             });
+        $scope.showRecipeASP = function (id) {
+            mock_element = { recipe: findRecipe(id) };
+            $scope.showRecipe(mock_element);
+        }
+        $scope.showRecipe = function (element) {
+            $scope.view = element.recipe;
+            localStorage["recipe_view"] = JSON.stringify($scope.view);
+            change_content_to("recipe_view");
+        }
+        $scope.showIngrediants = function (ingredients) {
+            if (typeof ingredients !== 'undefined') {
+                $("#ingredients_view").empty();
+                ingredients.forEach(function (e, i) {
+                    $("#ingredients_view").append("<span class='ingredient'>" + e.qty + " " + e.defaultUnit + " - " + e.title + "</span>");
+                });
+            }
+        }
     })
 });
 
@@ -64,20 +123,14 @@ app.controller('ctrl', function ($scope, $http) {
 $(document).ready(function () {
     console.log("Document ready");
     arrange_ingrediants("init");
-    
+    localStorage["user_id"] = $("#txtUserId").val();
     $(".rate-stars").hover(function () {
         id = $(this).attr("id").split('-')[1];
-        for (i = 1; i <= 5; i++) {
-            if (i <= id) {
-                $("#star-" + i).attr("src", "/images/fullStar.png");
-            } else {
-                $("#star-" + i).attr("src", "/images/emptyStar.png");
-            }
-        }
+        show_stars_edit_recipe(id);
         organize_rate_for_server(id);
     });
     search_term = $("#txtSearch").val();
-    console.log(search_term);
+    console.log("search_term: " + search_term);
     if (search_term != "") {
         change_content_to("Search");
     } else {
@@ -87,67 +140,132 @@ $(document).ready(function () {
             change_content_to("Home");
         }
     }
-
-    //if (localStorage["NewRecipeWindow"] == "true") {
-    //    show_new_recipe_form()
-    //} else {
-    //    close_new_recipe()
-    //}
 });
 
+function update_my_recipes() {
+    $http = angular.injector(["ng"]).get("$http");
+    var url = 'webservice.asmx/getMyStuff';
+    $http.get(url, null).then(
+        function (res) {
+            localStorage["user_id"] = $("#txtUserId").val();
+            var x2js = new X2JS();
+            recipes = x2js.xml_str2json(x2js.xml_str2json(res.data).string.__text).ArrayOfRecipeDTO.RecipeDTO
+            angular.element($("#txtUserId")).scope().recipes = [];
+            recipes.forEach(function (element, j) {
+                if (element.owner.id != localStorage["user_id"]) return;
+                recipe_ings = [];
+                ing_arr = [];
+                if (element.IngredientsInRecipes.IngredientDTO != 'undefined')
+                    ing_arr = element.IngredientsInRecipes.IngredientDTO;
+                len = ing_arr == undefined ? 0 : ing_arr.length;
+                for (i = 0; i < len; i++) {
+                    recipe_ings.push(new Ingredient(ing_arr[i].id, ing_arr[i].name, ing_arr[i].unit_type, ing_arr[i].qty, ing_arr[i].source));
+                }
+                angular.element($("#txtUserId")).scope().recipes.push(new Recipe(element.id, element.title, element.time, element.img_path, element.rate, recipe_ings, element.description, element.owner));
+            });
+            console.log("scope recipes: " + angular.element($("#txtUserId")).scope().recipes);
+        },
+        function (er) {
+            console.log("error:")
+            console.log(er);
+        });
+    angular.element($("#txtUserId")).scope().$apply();
+}
+
+function findRecipe(id) {
+    return recipes_hash[id];
+}
+function show_stars_edit_recipe(rate) {
+    for (i = 1; i <= 5; i++) {
+        if (i <= rate) {
+            $("#star-" + i).attr("src", "/images/fullStar.png");
+        } else {
+            $("#star-" + i).attr("src", "/images/emptyStar.png");
+        }
+    }
+}
+
 function hash_all_recepies() {
-    console.log(all_recipes);
+    console.log("all recipes" + all_recipes);
     all_recipes.forEach(element => recipes_hash[element.id] = element);
+}
+
+function editImage_Clicked_ng(element) {
+    if (element.id != undefined) {
+        editImage_Clicked(element.id.trim());
+    } else if (element.attr != undefined)  {
+        editImage_Clicked(element.attr("id").trim());
+    }
+    
 }
 
 function editImage_Clicked(id) {
     edit_recipe = recipes_hash[id];
     console.log("about to edit recipe: " + edit_recipe.title);
+    $("#btnRemove").attr("hidden", false);
+    show_new_recipe_form();
+    $("#txtEditModeId").val(id);
+    $("#txtRecipeName").val(edit_recipe.title);
+    $("#txtTime").val(edit_recipe.timeToPrepare);
+    $("#txtRate").val(edit_recipe.rate);
+    $("#current_image_container").append("<img src='" + edit_recipe.pathToThumbnail + "' id='recipe_image' />");
+    show_stars_edit_recipe(edit_recipe.rate);
+    edit_recipe.ingredients.forEach(function (e, i) {
+        console.log(e);
+        $("#txtIngrediant" + i).val(e.title);
+        if (e.isVegan() != 0) { toggle_ingrediant_type("vegan", i); }
+        if (e.containsMeat() != 0) { toggle_ingrediant_type("chicken", i); }
+        if (e.containsFish() != 0) { toggle_ingrediant_type("fish", i); }
+        if (e.isDairy() != 0) { toggle_ingrediant_type("dairy", i); }
+        $("#txtQuantity" + i).val(e.qty);
+        $("#slQuantityUnit" + i).val(e.defaultUnit);
+        arrange_ingrediants("synthetic");
+    });
+    organize_ingrediants_for_server();
+    $("#txtDirections0").val(edit_recipe.description);
+    $("#txtEditRecipeID").val(edit_recipe.id);
+    $("#btnSubmit").val("Update");
 }
 
 
-function EditMyRecipes() {
-
-}
-
-function arrange_directions(i) {
-    console.log(directions_index);
-    var latest_directions = $("#txtDirections" + directions_index);
-    //if latest direction is empty remove it
-    if (directions_index > 0) {
-        var latest_val = latest_directions.val().trim();
-        var before_latest_val = $("#txtDirections" + (directions_index - 1)).val().trim();
-        if (latest_val == "" && before_latest_val == "") {
-            $("#divDirections" + directions_index).remove();
-            directions_index--;
-            return;
-        }
-    }
-    //if latest direction is full. make sure there is a new direction available for filling
-    if (latest_directions.val().trim() != "") {
-        directions_index++;
-        var header = "";
-        var num = directions_index + 1;
-        if (num % 10 == 1) {
-            header = num + "st Step";
-        } else if (num % 10 == 2) {
-            header = num + "nd Step";
-        } else if (num % 10 == 3) {
-            header = num + "rd Step";
-        } else {
-            header = num + "th Step";
-        }
-        var mark = '<div id="divDirections' + directions_index + '" class="card text-white bg-primary mb-3">\
-            <div class="card-header"> ' + header + '</div >\
-                <div class="card-body">\
-                    <p class="card-text">\
-                        <textarea id="txtDirections' + directions_index + '" class="directions_inputs" onkeyup="arrange_directions(' + directions_index + ')" ></textarea>\
-                    </p>\
-                </div>\
-                    </div >';
-        $("#directions").append(mark);
-    }
-}
+//function arrange_directions(i) {
+//    console.log(directions_index);
+//    var latest_directions = $("#txtDirections" + directions_index);
+//    //if latest direction is empty remove it
+//    if (directions_index > 0) {
+//        var latest_val = latest_directions.val().trim();
+//        var before_latest_val = $("#txtDirections" + (directions_index - 1)).val().trim();
+//        if (latest_val == "" && before_latest_val == "") {
+//            $("#divDirections" + directions_index).remove();
+//            directions_index--;
+//            return;
+//        }
+//    }
+//    //if latest direction is full. make sure there is a new direction available for filling
+//    if (latest_directions.val().trim() != "") {
+//        directions_index++;
+//        var header = "";
+//        var num = directions_index + 1;
+//        if (num % 10 == 1) {
+//            header = num + "st Step";
+//        } else if (num % 10 == 2) {
+//            header = num + "nd Step";
+//        } else if (num % 10 == 3) {
+//            header = num + "rd Step";
+//        } else {
+//            header = num + "th Step";
+//        }
+//        var mark = '<div id="divDirections' + directions_index + '" class="card text-white bg-primary mb-3">\
+//            <div class="card-header"> ' + header + '</div >\
+//                <div class="card-body">\
+//                    <p class="card-text">\
+//                        <textarea id="txtDirections' + directions_index + '" class="directions_inputs" onkeyup="arrange_directions(' + directions_index + ')" ></textarea>\
+//                    </p>\
+//                </div>\
+//                    </div >';
+//        $("#directions").append(mark);
+//    }
+//}
 
 function arrange_ingrediants(init) {
     console.log(init + ingredient_index)
@@ -235,9 +353,7 @@ function organize_ingrediants_for_server() {
 function organize_rate_for_server(rate) {
     $("#txtRate").val(rate);
 }
-function edit_recipe(id, title, rate, description, owner_id, time, ingredients) {
-    console.log(id, title, rate, description.replace("|||",","), owner_id, time, ingredients);
-}
+
 function toggle_ingrediant_type(type, index) {
     img_id = "#" + type + "_" + index;
     console.log(img_id);
@@ -253,10 +369,28 @@ function toggle_ingrediant_type(type, index) {
 function close_new_recipe() {
     localStorage["NewRecipeWindow"] = false;
     $(".new_recipe_container").attr("hidden", true);
+    $("#recipe_image").remove();
+    $("#txtEditModeId").val("");
+    $("#txtRecipeName").val("");
+    $("#txtTime").val("");
+    $("#txtRate").val("");
+    $("#current_image_container").empty();
+    show_stars_edit_recipe(1);
+    for (i = ingredient_index; i >= 0; i--) {
+        $("#txtIngrediant" + i).val("");
+        $("#txtQuantity" + i).val("");
+        arrange_ingrediants("synthetic");
+    };
+    organize_ingrediants_for_server();
+    $("#txtDirections0").val("");
+    $("#txtEditRecipeID").val("");
+    $("#btnSubmit").val("Submit");
 }
 
 function close_account_floaty() {
     $(".floating-account-info").attr("hidden", true);
+    $("#btnRemove").attr("hidden", true);
+    $("#txtEditRecipeID").val("");
 }
 
 function show_new_recipe_form() {
@@ -269,44 +403,51 @@ function category_click(catName) {
     __doPostBack('category_panel', catName);
 }
 
+var content_names = [".recipes_container", ".home", ".categories_page", ".search_results", ".my_recipes_container", ".recipe_view"]
+
 function change_content_to(page_name) {
     switch(page_name) {
         case "Browse":
             localStorage["CurrentViewName"] = "Browse";
+            content_names.forEach(element => $(element).attr("hidden", true));
             $(".recipes_container").attr("hidden", false);
-            $(".home").attr("hidden", true);
-            $(".categories_page").attr("hidden", true);
-            $(".search_results").attr("hidden", true);
             break;
         case "Categories":
             localStorage["CurrentViewName"] = "Categories";
-            $(".recipes_container").attr("hidden", true);
-            $(".home").attr("hidden", true);
+            content_names.forEach(element => $(element).attr("hidden", true));
             $(".categories_page").attr("hidden", false);
-            $(".search_results").attr("hidden", true);
             break;
         case "Home":
         case "sign_in":
         case "recover":
         case "register":
             localStorage["CurrentViewName"] = "Home";
-            $(".recipes_container").attr("hidden", true);
+            content_names.forEach(element => $(element).attr("hidden", true));
             $(".home").attr("hidden", false);
-            $(".categories_page").attr("hidden", true);
-            $(".search_results").attr("hidden", true);
             break;
         case "Account":
             $(".floating-account-info").attr("hidden", false);
             break;
         case "Search":
             localStorage["CurrentViewName"] = "Search";
+            content_names.forEach(element => $(element).attr("hidden", true));
             $(".search_results").attr("hidden", false);
-            $(".recipes_container").attr("hidden", true);
-            $(".home").attr("hidden", true);
-            $(".categories_page").attr("hidden", true);
             break;
+        case "manage_recipes":
+            localStorage["CurrentViewName"] = "manage_recipes";
+            content_names.forEach(element => $(element).attr("hidden", true));
+            $(".my_recipes_container").attr("hidden", false);
+            update_my_recipes();
+            break;
+        case "recipe_view":
+            localStorage["CurrentViewName"] = "recipe_view";
+            content_names.forEach(element => $(element).attr("hidden", true));
+            $(".recipe_view").attr("hidden", false);
+            break;
+
         default:
-            alert("unhandled currentViewName" + localStorage["CurrentViewName"] );
+            alert("unhandled currentViewName " + localStorage["CurrentViewName"] );
     }
+    $("#txtSearch").val("");
     return;
 }

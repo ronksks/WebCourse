@@ -24,6 +24,15 @@ namespace web_course
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// txtUserId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUserId;
+
+        /// <summary>
         /// txtSearch control.
         /// </summary>
         /// <remarks>
@@ -204,6 +213,15 @@ namespace web_course
         protected global::System.Web.UI.WebControls.TextBox txtIngrediants;
 
         /// <summary>
+        /// txtEditModeId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditModeId;
+
+        /// <summary>
         /// divIngrediants control.
         /// </summary>
         /// <remarks>
@@ -249,13 +267,13 @@ namespace web_course
         protected global::System.Web.UI.WebControls.FileUpload fileuploadRecipeThumb;
 
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// txtEditRecipeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.TextBox txtEditRecipeID;
 
         /// <summary>
         /// btnSubmit control.
@@ -265,6 +283,15 @@ namespace web_course
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSubmit;
+
+        /// <summary>
+        /// btnRemove control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRemove;
 
         /// <summary>
         /// ltSearchTerm control.

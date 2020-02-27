@@ -15,13 +15,14 @@
             
         }
 
-        public IngredientDTO(int id, string name, string unit, string image, int source)
+        public IngredientDTO(int id, string name, string unit, string image, int source, string qty)
         {
             this.id = id;
             this.name = name;
             this.unit_type = unit;
             this.img_path = image;
             this.source = source;
+            this.qty = qty;
         }
 
         public int id { get; set; }
@@ -29,6 +30,6 @@
         public string unit_type { get; set; }
         public string img_path { get; set; }
         public int source { get; set; }
-
+        public string qty { get; set; }
     }
 }

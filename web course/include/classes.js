@@ -17,7 +17,7 @@ class Recipe {
         this.timeToPrepare = time_to_prepare;
         this.pathToThumbnail = path_to_thumbnail;
         this.rate = rate;
-        this.ingredients = ingredients
+        this.ingredients = ingredients;
         this.description = description;
         this.user = user;
     }
@@ -54,12 +54,12 @@ class Recipe {
 
 
 class Ingredient {
-    constructor(id, title, defaultUnit, pathToThumbnail, source) {
+    constructor(id, title, defaultUnit, qunatity, source) {
         this.id = id;
         this.title = title;
         this.defaultUnit = defaultUnit;
-        this.pathToThumbnail = pathToThumbnail;
         this.source = source;       //mention if its vegan, meat, dairy, other (bitwise)
+        this.qty = qunatity;
     }
 
     //isVegetarian() {

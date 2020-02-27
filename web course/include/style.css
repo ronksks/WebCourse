@@ -57,11 +57,42 @@
     float:right;
 }
 
-input#txtIngrediants {
+#recipe_image {
+    max-height:100px;
+    position: absolute;
+    right: 100px;
+    top:200px;
+}
+
+img.img_view {
+    float: right;
+    max-width: 50%;
+}
+
+span.ingredient {
+    display: block;
+    padding-left: 25px;
+    padding-top: 9px;
+    background-image: url(/images/icons8-circle-16.png);
+    background-position-y: 15px;
+    background-repeat: no-repeat;
+    height: 36px;
+}
+
+span.description_view {
+    display: block;
+}
+
+span.user_view {
+    float:right;
+}
+
+input#txtIngrediants, input#txtEditRecipeID, input#txtRate, input#txtEditModeId, input#txtUserId {
     display: none;
 }
-input#txtRate {
-    display: none;
+
+.angular-with-newlines {
+    white-space: pre-wrap;
 }
 
 .ingrediant_input_text {
@@ -184,23 +215,50 @@ label {
     width:100%;
 }
 
+input#txtSearch {
+    display: inline-block;
+    width: 73%;
+}
+
 .directions_inputs {
     width: 100%;
     border-radius: 10px;
     min-height: 12em;
 }
 
-/*!
- * TODO: Ron.Y make website responsive and mobile supported.
- */
-@media only screen and (max-width: 600px) {
+
+@media all and (max-width: 600px) {
+
+    .floating-account-info {
+        top: 50%;
+        right: 0;
+        width: 90%;
+        margin: 5%;
+        background: #e4a3a1;
+        box-shadow: 3px 3px 3px 3px grey;
+    }
+
+    input#txtSearch {
+        width: 79%;
+        display: inline-block;
+        clear: none;
+        float: left;
+    }
+    input#ibtnSearch {
+        padding: 0 !important;
+    }
     .new_recipe_container {
         width: 100% !important;
         left:0;
     }
 
+    .lead {
+        overflow: auto;
+    }
+
     .sidenav {
         padding-top: 20%;
+        z-index:10!important;
     }
 
     .ingrediant_container {
@@ -216,7 +274,17 @@ label {
     }
 
     .login_container {
-        margin: 0;
-        min-width: unset;
+        width: 90% !important;
+        margin: 5% !important;
     }
+
+    .card.border-primary.mb-3.recipe {
+        width: 98%;
+        overflow: hidden;
+    }
+
+    #new_recipe_a {
+        z-index:10;
+    }
+
 }

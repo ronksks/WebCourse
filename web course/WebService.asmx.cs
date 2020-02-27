@@ -21,13 +21,14 @@ namespace web_course
     {
 
         [WebMethod]
-        public string HelloWorld()
+        public string getUserId()
         {
-            return "Hello World";
+            if(Session != null) return (string) Session["uid"];
+            return "null";
         }
 
         [WebMethod]
-        public string getStuff()
+        public string getMyStuff()
         {
             XmlSerializer xsSubmit = new XmlSerializer(typeof(List<RecipeDTO>));
             List<RecipeDTO> recipes = new List<RecipeDTO>();
@@ -44,10 +45,10 @@ namespace web_course
                             UserDTO u = new UserDTO(r.User.id, r.User.bdate, r.User.email, r.User.name, r.User.isadmin, r.User.gender);
                             foreach (IngredientsInRecipe ing in r.IngredientsInRecipes)
                             {
-                                IngredientDTO cur_ing = new IngredientDTO(ing.Ingredient.id, ing.Ingredient.name, ing.Ingredient.unit_type, ing.Ingredient.img_path, ing.Ingredient.source);
+                                IngredientDTO cur_ing = new IngredientDTO(ing.Ingredient.id, ing.Ingredient.name, ing.Ingredient.unit_type, ing.Ingredient.img_path, ing.Ingredient.source, ing.qty);
                                 ingrediants.Add(cur_ing);
                             }
-                            RecipeDTO cur_recipe = new RecipeDTO(r.id, r.title, r.img_path, r.rate, r.time, r.description, ingrediants, u);
+                            RecipeDTO cur_recipe = new RecipeDTO(r.id, r.title.Trim(), r.img_path, r.rate, r.time, r.description.Trim(), ingrediants, u);
                             recipes.Add(cur_recipe);
                         }
                     }

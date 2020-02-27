@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <link href="include/style.css" rel="stylesheet" />
     <script src="include/jquery-2.0.0.min.js"></script>
     <link href="include/bootstrap_journal.min.css" rel="stylesheet" />
+    <link href="include/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Login - Register</title>
     <script>
         $(document).ready(function () {

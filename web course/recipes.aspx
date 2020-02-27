@@ -9,9 +9,11 @@
     <title>My Kitchen Web App</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x2js/1.2.0/xml2json.min.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50" data-ng-app="app" data-ng-controller="ctrl">
     <form id="form1" runat="server">
+        <asp:TextBox runat="server" ID="txtUserId"></asp:TextBox>
         <asp:Panel runat="server" cssClass="main_container">
             <!-- Navigation bar -->
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
@@ -25,9 +27,6 @@
 
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
-                        <!--<li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>-->
                         <li class="nav-item">
                             <a class="nav-link" onclick="change_content_to('Browse')" href="#">Browse</a>
                         </li>
@@ -38,9 +37,7 @@
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item">
                         <asp:TextBox runat="server" CssClass="form-control mr-sm-2" ID="txtSearch" Placeholder="Search" />
-                        </li>
-                        <li class="nav-item">
-                        <asp:ImageButton cssClass="btn btn-primary my-2 my-sm-0" ID="ibtnSearch" runat="server" AlternateText="" ImageAlign="right" ImageUrl="/images/search.png" OnClick="ibtnSearch_Click"/>
+                        <asp:ImageButton CausesValidation="false" cssClass="btn btn-primary my-2 my-sm-0" ID="ibtnSearch" runat="server" AlternateText="" ImageAlign="right" ImageUrl="/images/search.png" OnClick="ibtnSearch_Click"  />
                         </li>
                         <li class="nav-item">
                             <img alt="Account info" class="nav-link" src="/images/user.png" onclick="change_content_to('Account')"/>
@@ -51,12 +48,9 @@
 
             <!-- sidebar -->
             <div class="sidenav">
-                <a href="#" data-toggle="tooltip" title="Add New Recipe" onclick="show_new_recipe_form()">
+                <a href="#" id="new_recipe_a" data-toggle="tooltip" title="Add New Recipe" onclick="show_new_recipe_form()">
                     <img src="/images/add-property.png">
                 </a>
-                <!--<a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#">Contact</a>-->
             </div>
         
             <!-- Recipes view  -->
@@ -65,7 +59,6 @@
 
                 <!--<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>-->
                 <hr class="my-4" />
-                <!-- TODO: add onclick functionality to show recipe on same page-->
                 <asp:Repeater runat="server" ID="myRecipes">
                     <ItemTemplate>
                         <div class="card border-primary mb-3 recipe">
@@ -73,7 +66,7 @@
                                 <asp:Literal runat="server" Text='<%#((String)Eval("title")).Trim() %>'></asp:Literal>
                                 <%# enableEditRecipe(Eval("id")) %>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" data-ng-click="showRecipeASP(<%# Eval("id") %>)">
                                 <h4 class="card-title">
                                     Time: <asp:Literal runat="server" Text='<%#Eval("time") %>' ></asp:Literal> Minutes
                                 </h4>
@@ -110,7 +103,7 @@
             </div>
 
             <!-- Categories Page-->
-            <div class="jumbotron home categories_page">
+            <div class="jumbotron categories_page">
                 <asp:Panel ID="pnlCategoriesPage" runat="server" >
                     <h1 class="display-3">Categories</h1>
                     <hr />
@@ -195,6 +188,7 @@
                 </div>                
                 <a href="#" onclick="close_new_recipe()"><img class="close_window" src="/images/close-window.png"/></a>
                 <asp:Panel runat="server" ID="pnlNewRecipeForm">
+                    <div id="current_image_container" style="margin-bottom:10px"></div>
                     <div class="form-group">
                         <asp:TextBox ID="txtRecipeName" runat="server" cssClass="form-control"  placeholder="Recipe Name"/>
                         <p class="text-danger">
@@ -204,30 +198,6 @@
                         <small class="form-text text-muted">Try to keep it simple.</small>
                     </div>
                     <div class="form-group form-inline">
-                        <%--<table class="form_row">
-                            <thead>
-                                <tr>
-                                    <td class="form_row_description">
-                                        <label style="justify-content:flex-end;">Category:</label>
-                                    </td>
-                                    <td class="form_row_value">
-                                        <!--TODO: make these options apear whend document is ready to get category list from database
-                                         TODO: add functionality to add new category if needed-->
-                                        <asp:DropDownList cssClass="form-control" runat="server" ID="ddlCategory">
-                                            <asp:ListItem text="Meat" Value="Meat"/>
-                                            <asp:ListItem text="Dairy" Value="Dairy"/>
-                                            <asp:ListItem text="Vegan" Value="Vegan"/>
-                                            <asp:ListItem text="Fish" Value="Fish"/>
-                                            <asp:ListItem text="Add New" Value="Add New"/>
-                                        </asp:DropDownList>
-                                    </td>
-                                </tr>
-                            </thead>
-                        </table>--%>
-                    </div>
-
-                    <div class="form-group form-inline">
-                        <!--TODO:add javascript here that will show time in HH:MM format or accept this special format as input-->
                         <table class="form_row">
                             <thead>
                                 <tr>
@@ -270,6 +240,7 @@
                     </div>
                     <!--dynamic ingediants table-->
                     <asp:TextBox runat="server" ID="txtIngrediants" ></asp:TextBox>
+                    <asp:TextBox runat="server" ID="txtEditModeId" ></asp:TextBox>
                     <div runat="server" id="divIngrediants">
                         <h1>Ingrediants</h1>
                         
@@ -284,7 +255,7 @@
                                     <%--onkeyup="arrange_directions(0)"--%>
                                     <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDirections0" cssClass="directions_inputs" ></asp:TextBox>
                                     <p class="text-danger">
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="fileuploadRecipeThumb" ErrorMessage="File Required!">
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDirections0" ErrorMessage="Description is Required!">
                                         </asp:RequiredFieldValidator>
                                     </p>
                                 </p>
@@ -298,15 +269,12 @@
                     <div class="form-group form-inline">
                         <label>Recipe Image:</label>
                         <asp:FileUpload id="fileuploadRecipeThumb" runat="server" />
-                        <p class="text-danger"><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
-                            ControlToValidate="fileuploadRecipeThumb" ErrorMessage="File Required!">
-                        </asp:RequiredFieldValidator></p>
                     </div>
+                    <asp:TextBox runat="server" ID="txtEditRecipeID" ></asp:TextBox>
                     <asp:Button runat="server" OnClick="btnSubmit_Click" id="btnSubmit" cssClass="btn btn-primary" text="Submit" type="submit"/>
+                    <asp:Button runat="server" CausesValidation="False"  OnClick="btnRemove_Click" id="btnRemove" cssClass="btn btn-secondary" text="Remove" style="float:right;" type="button"/>
                  </asp:Panel>
                 </div>
-
-            <!--TODO: Ron.Y add a view recipe container-->
 
             <!-- Search Results -->
             <div class="jumbotron page_container search_results">
@@ -319,7 +287,7 @@
                             <div class="card-header">
                                 <asp:Literal runat="server" Text='<%#Eval("title") %>'></asp:Literal>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" data-ng-click="showRecipeASP(<%# Eval("id") %>)>
                                 <h4 class="card-title">
                                     Time: <asp:Literal runat="server" Text='<%#Eval("time") %>' ></asp:Literal> Minutes
                                 </h4>
@@ -352,52 +320,65 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <asp:HyperLink id="hlLoginLink2" NavigateUrl="login_reg.aspx" Text="Login/Register" runat="server"/> 
-                        <asp:HyperLink id="hlEditMyRecipes" NavigateUrl="#" Text="My Recipes" runat="server" onClick="EditMyRecipes()"/> 
+                        <asp:HyperLink id="hlEditMyRecipes" NavigateUrl="#" Text="My Recipes" runat="server" onClick="change_content_to('manage_recipes')"/> 
                     </h4>
-                    <asp:Button ID="btnSignOut" Text="Sign Out" runat="server" onclick="signOut_Click"/> 
+                    <asp:Button ID="btnSignOut" CausesValidation="False" Text="Sign Out" runat="server" OnClick="btnSignOut_Click" CssClass="button" type="button" /> 
                 </div>
             </div>
             
-            <!-- User Recipes Edit page -->
-            <div class="jumbotron page_container edit_my_recipes">
-            
-            </div>
-
-            <!-- Recipes view  -->
-            <%--<div class="jumbotron page_container recipes_container" hidden>
-                <h1 class="display-3">Recipes</h1>
+            <!-- Manage My Recipes view  -->
+            <div class="jumbotron page_container my_recipes_container">
+                <h1 class="display-3">My Recipes</h1>
 
                 <!--<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>-->
                 <hr class="my-4" />
                 <!-- TODO: add onclick functionality to show recipe on same page-->
-                <div ng-repeat="">
+                <div data-ng-repeat="recipe in recipes">
                         <div class="card border-primary mb-3 recipe">
                             <div class="card-header">
-                                <asp:Literal runat="server" Text='<%#((String)Eval("title")).Trim() %>'></asp:Literal>
-                                <img src = 'images/icons8-edit-32.png' class='edit_image' onclick='editImage_Clicked(" + res_id + ")' />
+                                {{recipe.title}}
+                                <img src = 'images/icons8-edit-32.png' class='edit_image' onclick='editImage_Clicked_ng(this)' id=" {{recipe.id}} "/>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" data-ng-click="showRecipe(this)">
                                 <h4 class="card-title">
-                                    Time: <asp:Literal runat="server" Text='<%#Eval("time") %>' ></asp:Literal> Minutes
+                                    Time: {{recipe.timeToPrepare}} Minutes
                                 </h4>
                                 <p class="card-text">
-                                    <asp:Image ID="img" runat="server" src='<%#Eval("img_path").ToString().Trim() %>' style="max-width: 17rem; max-height: 12rem"></asp:Image>
+                                    <img src="{{recipe.pathToThumbnail}}" style="max-width: 17rem; max-height: 12rem" />
                                 </p>
-                                <img src="<%# RateToImagePath(Eval("rate"),1) %>"/>
-                                <img src="<%# RateToImagePath(Eval("rate"),2) %>"/>
-                                <img src="<%# RateToImagePath(Eval("rate"),3) %>"/>
-                                <img src="<%# RateToImagePath(Eval("rate"),4) %>"/>
-                                <img src="<%# RateToImagePath(Eval("rate"),5) %>"/>
+                                <span data-ng-repeat="i in range(recipe.rate)"><img src="{{fullStarPath}}" /></span>
+                                <span data-ng-repeat="i in rangeFromTo(recipe.rate,5)"><img src="{{emptyStarPath}}" /></span>
                                 <br />
-                                <img src="<%# RecipeIsVegan(Eval("id")) %>" />
-                                <img src="<%# RecipeContainsDairy(Eval("id")) %>" />
-                                <img src="<%# RecipeContainsMeat(Eval("id")) %>" />
-                                <img src="<%# RecipeContainsFish(Eval("id")) %>" />
-                                <span style="font-size:11px;float:right;">by <%# getOwnerName(Eval("owner")) %></span>
+                                <img src="{{getVeganIcon(recipe.isVegan())}}" />
+                                <img src="{{getDairyIcon(recipe.containsDairy())}}" />
+                                <img src="{{getChickenIcon(recipe.containsMeat())}}" />
+                                <img src="{{getFishIcon(recipe.containsFish())}}" />
+                                <span style="font-size:11px;float:right;">by {{recipe.user.fname}}</span>
                             </div>
                         </div>
                 </div>
-            </div>--%>
+            </div>
+
+            <!-- view a Recipe view  -->
+            <div class="jumbotron page_container recipe_view">
+                <h1 class="display-3">{{view.title}}</h1>
+                <img src="{{view.pathToThumbnail}}" class="img_view" />
+                <p class="lead">
+                    <span data-ng-repeat="i in range(view.rate)"><img src="{{fullStarPath}}" /></span>
+                    <span data-ng-repeat="i in rangeFromTo(view.rate,5)"><img src="{{emptyStarPath}}" /></span>
+                    <span class="time_view">Time to prepare:{{view.timeToPrepare}}</span>
+                    <span class="user_view">By {{view.user.name}}</span>
+                </p>
+                <hr class="my-4">
+                <div id="ingredients_view">
+                     <h2 class="display-5">Ingredients</h2>
+                     <hr class="my-1">
+                    {{showIngrediants(view.ingredients)}}
+                </div>
+                <div class="lead angular-with-newlines">
+                    <h2 class="display-5">Instructions</h2><hr class="my-1" />{{view.description}}</div>
+                
+            </div>
         </asp:Panel>
         <!-- Footer -->
         <div class="footer">

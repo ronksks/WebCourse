@@ -68,8 +68,9 @@ namespace web_course
         }
         private bool loggedIn()
         {
-            if (Session["email"] != null && Session["name"] != null && Session["uid"] != null)
+            if (Session != null && Session["email"] != null && Session["name"] != null && Session["uid"] != null)
             {
+                txtUserId.Text = Session["uid"].ToString();
                 return true;
             }
             else
@@ -88,21 +89,14 @@ namespace web_course
             }
         }
 
-        protected void signOut_Click(object sender, EventArgs e)
-        {
-            Session["email"] = null;
-            Session["uid"] = null;
-            Session["name"] = null;
-            Session["isadmin"] = null;
-            setGuestFloaty();
-
-        }
+        
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-
-            if (Session["uid"] != null)
+            string edit_mode_id = txtEditModeId.Text;
+            if (loggedIn())
             {
+                //Here we are in Add New Recipe Mode
                 int owner_id = (int)Session["uid"];
                 //adding ingrediants to database
                 string[] strs_ings = txtIngrediants.Text.Split('|');
@@ -138,9 +132,10 @@ namespace web_course
                 String rate = txtRate.Text;
                 if (rate.Length != 0)
                 {
-                    try { 
-                        rcp.rate = Convert.ToInt32(rate); 
-                    } 
+                    try
+                    {
+                        rcp.rate = Convert.ToInt32(rate);
+                    }
                     catch
                     {
 
@@ -161,26 +156,75 @@ namespace web_course
                 rcp.owner = owner_id;
                 rcp.description = txtDirections0.Text;
 
+
+
                 //upload image to image folder
                 //TODO: amke sure image does not alreay exists and if it does check what happends when you reupload it if it automatically renames it or overwites it
                 //if overwrite... make sure rename happens.
                 string relativePath = "";
                 using (FileUpload fileuploadRecipeThumb1 = fileuploadRecipeThumb)
                 {
-                    if (fileuploadRecipeThumb1.FileName != "") {
+                    if (fileuploadRecipeThumb1.FileName != "")
+                    {
                         relativePath = "/images/recipes/" + fileuploadRecipeThumb1.FileName;
                         string ServerMapPath = Server.MapPath("~//images//recipes//" + fileuploadRecipeThumb1.FileName);
                         fileuploadRecipeThumb.PostedFile.SaveAs(ServerMapPath);
+                        rcp.img_path = relativePath;
+                    } 
+                    else if (edit_mode_id != "")
+                    {
+                        using (var db = new KitchenAppDBEntities())
+                        {
+                            int id = Int16.Parse(edit_mode_id);
+                            Recipe get_path = db.Recipes.Find(id);
+                            if (get_path != null)
+                            {
+                                rcp.img_path = get_path.img_path;
+                            }
+                            else
+                            {
+                                rcp.img_path = relativePath;
+                            }
+                        }
+                    } 
+                    else
+                    {
+                        rcp.img_path = relativePath;
                     }
                 }
-                rcp.img_path = relativePath;
 
                 using (var db = new KitchenAppDBEntities())
                 {
-                    //adding recipe to database
-                    db.Recipes.Add(rcp);
-                    db.SaveChanges();
+                    if (edit_mode_id != "")
+                    {
+                        //editing existing recipe
+                        int id = Int16.Parse(edit_mode_id);
+                        Recipe to_change = db.Recipes.Find(id);
+                        if (to_change != null) {
+                            to_change.time = rcp.time;
+                            to_change.title = rcp.title;
+                            to_change.rate = rcp.rate;
+                            to_change.description = rcp.description;
+                            to_change.owner = rcp.owner;
+                            to_change.User = rcp.User;
 
+                            db.SaveChanges();
+                            rcp = to_change;
+                        }
+                        // removing old ingredients. will insert new ones after this block.
+                        List<IngredientsInRecipe> l = db.IngredientsInRecipes.Where(i => i.recipe_id == id).ToList();
+                        foreach (IngredientsInRecipe i in l)
+                        {
+                            db.IngredientsInRecipes.Remove(i);
+                        }
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        //adding recipe to database
+                        db.Recipes.Add(rcp);
+                        db.SaveChanges();
+                    }
                     foreach (Ingredient i in ingrediants)
                     {
                         IngredientsInRecipe ingInRec = new IngredientsInRecipe();
@@ -192,18 +236,15 @@ namespace web_course
                         db.IngredientsInRecipes.Add(ingInRec);
                     }
                     db.SaveChanges();
+
                 }
-
-
             }
             else
             {
-
+                //user not logged in
             }
             //LocalDataStoreSlot[""];
             Response.Redirect("recipes.aspx");
-
-
         }
 
         protected void pnlCategory_Click(String category)
@@ -242,6 +283,32 @@ namespace web_course
                 rptCategory.DataSource = catRecipes;
                 rptCategory.DataBind();
             }
+        }
+        protected void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (loggedIn())
+            {
+                string remove_id = txtEditRecipeID.Text;
+                int id = Int16.Parse(remove_id);
+                using (var db = new KitchenAppDBEntities())
+                {
+                    // removing old ingredients. will insert new ones after this block.
+                    List<IngredientsInRecipe> l = db.IngredientsInRecipes.Where(i => i.recipe_id == id).ToList();
+                    foreach (IngredientsInRecipe i in l)
+                    {
+                        db.IngredientsInRecipes.Remove(i);
+                    }
+                    db.SaveChanges();
+                    Recipe del_me = db.Recipes.Find(id);
+                    if (del_me == null)
+                    {
+                        return;
+                    }
+                    db.Recipes.Remove(del_me);
+                    db.SaveChanges();
+                }
+            }
+            Response.Redirect("recipes.aspx");
         }
 
         protected void ShowCategories_Click(object sender, EventArgs e)
@@ -453,6 +520,15 @@ namespace web_course
             }
         }
 
+        protected void btnSignOut_Click(object sender, EventArgs e)
+        {
+            Session["email"] = null;
+            Session["uid"] = null;
+            Session["name"] = null;
+            Session["isadmin"] = null;
+            setGuestFloaty();
+            Response.Redirect("recipes.aspx");
+        }
     }
 }
 
